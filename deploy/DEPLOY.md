@@ -9,17 +9,21 @@ builds and runs the repository's `docker-compose.yml` on deploy.
 | File | Purpose |
 | --- | --- |
 | `Dockerfile` | Multi-stage Next.js **standalone** build; the runtime listens on port 80. |
-| `docker-compose.yml` | The platform-contract compose: container `hosting_koter-gym_web`, network `client_koter-gym_net`, `env_file: .env`, capped logs, no Docker labels. |
+| `docker-compose.yml` | The platform-contract compose: container `hosting_koter_web`, network `client_koter_net`, `env_file: .env`, capped logs, no Docker labels. |
 | `.dockerignore` | Keeps `.env`, `.git`, `node_modules`, and `.next` out of the build context. |
 
 `next.config.mjs` sets `output: 'standalone'`, which the Dockerfile relies on.
 
 ## Deploy steps
 
-1. **Create the client/site in the panel** with the slug **`koter-gym`** (Clients →
+1. **Create the client/site in the panel** with the slug **`koter`** (Clients →
    + New Client → set the domain; template *None* for a repo deploy). The
-   container name and network above must match this slug — regenerate with
-   `cef generate --client-slug <your-slug>` if it differs.
+   container name and network above must match this slug: the platform rejects a
+   compose that joins any network other than the client's own
+   `client_<slug>_net`. If the slug changes, edit the service, container and
+   network names in `docker-compose.yml` — or regenerate with
+   `cef generate --client-slug <slug>`; without the flag CEF derives them from the
+   project name, `koter-gym`, which is not the panel slug.
 2. **Container port** must be **80** (the platform default), matching
    the Dockerfile's `EXPOSE 80`.
 3. **Environment**: set runtime variables under **Sites → site → Environment**.
@@ -29,8 +33,8 @@ builds and runs the repository's `docker-compose.yml` on deploy.
 4. **Point the code at the platform**: set the client's GitHub repo + branch and
    **Deploy now**, or push to the configured branch to auto-deploy (webhook).
 5. The platform validates the compose (rejecting privileged mode, the Docker
-   socket, or foreign networks), builds the image, starts `hosting_koter-gym_web` on
-   `client_koter-gym_net`, and Traefik routes the domain to it — issuing a Let's Encrypt
+   socket, or foreign networks), builds the image, starts `hosting_koter_web` on
+   `client_koter_net`, and Traefik routes the domain to it — issuing a Let's Encrypt
    certificate on first request in production.
 
 ## Local check (optional)

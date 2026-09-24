@@ -74,12 +74,12 @@ Ezután: <http://localhost:8080> — az admin: <http://localhost:8080/admin>
 docker compose up --build -d
 ```
 
-A `docker-compose.yml` a platform szerződését követi: `hosting_koter-gym_web`
-konténer a `client_koter-gym_net` külső hálózaton, 80-as porton, `.env`-ből
+A `docker-compose.yml` a platform szerződését követi: `hosting_koter_web`
+konténer a `client_koter_net` külső hálózaton, 80-as porton, `.env`-ből
 olvasott környezettel. A részletes lépések: [`deploy/DEPLOY.md`](deploy/DEPLOY.md).
 
-> A `docker build` egyszer letölti az Archivo és Inter betűkészleteket, tehát a
-> build gépnek van internetkapcsolatra szüksége. A futó konténer már nem hálózik ki.
+> A betűkészletek a repóban vannak (`assets/fonts`, `npm run assets:fonts`), a
+> build nem tölt le fontot. A futó konténer nem hálózik ki.
 
 ### Adatmegőrzés
 

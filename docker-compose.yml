@@ -1,8 +1,10 @@
 # Deploys to the Klivo Docker hosting platform (Traefik file-provider routing).
 #
-# The container name and network embed the client slug "koter-gym"; if the
-# platform client uses a different slug, regenerate with
-# `cef generate --client-slug <slug>` or edit the three names below to match.
+# The service, container and network names embed the platform client slug,
+# "koter" (the panel client lives at clients/koter). The platform only lets a
+# site join its own client's network, client_<slug>_net, so these three names
+# must follow the slug if it ever changes. (CEF generated them from the
+# project name, koter-gym, which is not the slug the panel uses.)
 #
 # The named volume is not optional: the SQLite database and every uploaded
 # image live under /app/data, so without it a redeploy would discard the gym's
@@ -11,9 +13,9 @@
 # For a local run on a machine with no platform network, use:
 #   docker compose -f docker-compose.local.yml up --build
 services:
-  hosting_koter-gym_web:
+  hosting_koter_web:
     build: .
-    container_name: hosting_koter-gym_web
+    container_name: hosting_koter_web
     restart: unless-stopped
     env_file:
       - .env
@@ -22,7 +24,7 @@ services:
     volumes:
       - koter-gym-data:/app/data
     networks:
-      - client_koter-gym_net
+      - client_koter_net
     logging:
       driver: json-file
       options:
@@ -33,5 +35,5 @@ volumes:
   koter-gym-data:
 
 networks:
-  client_koter-gym_net:
+  client_koter_net:
     external: true
