@@ -1,0 +1,104 @@
+frameworkVersion: 2
+project:
+  name: koter-gym
+  type: fullstack
+  created: 2026-09-17T19:58:27.441Z
+  cefVersion: 0.0.0
+engines:
+  - accessibility
+  - ai-seo
+  - architecture
+  - components
+  - core
+  - deployment
+  - design
+  - docker
+  - experience
+  - legal
+  - motion
+  - performance
+  - platform
+  - security
+  - seo
+  - validation
+skills:
+  - emil-frontend-design
+  - emil-motion
+  - frontend-design
+  - taste
+  - uiux-pro-max
+mcp:
+  - chrome-devtools
+metadata:
+  framework: nextjs
+  language: typescript
+  packageManager: npm
+  styling: tailwind
+  uiLibrary: none
+  designPreset: bold
+  animation: gsap
+  database: sqlite
+  orm: none
+  authentication: jwt
+  cms: none
+  budget: premium
+  timeline: normal
+  description: >-
+    Kóter Gym & Crossfight Aréna edzőterem, küzdősport venue és sportegyesület
+    Hatvanban, 2015 óta. Tagsági és bérletalapú membership venue: erőterem,
+    crossfight és boksz terem, csoportos foglalkozások, tánctermi órák, személyi
+    edzés. A weboldal bemutatja a termet, az árakat, a személyi edzőket, egy
+    editorial fotógalériát, a csapatot, a versenyeredményeket, a helyszínt és a
+    közösségi oldalakat.
+  notes: >-
+    Az ügyféllel egyeztetett publikus információs architektúra pontosan öt oldal:
+    Főoldal, Árak, Edzők, Galéria, Rólunk. A kapcsolati adatok és a Google térkép
+    a Rólunk oldalon élnek. Az admin felület JWT-vel védett, publikusan nem
+    linkelt, és az árakat, az edzőket, a galériát, a díjakat, a jogi tartalmakat
+    és a site beállításokat kezeli. A venue tagsági és napijegyes belépőket árul
+    a helyszínen, online fizetés nélkül.
+  businessGoals:
+    - Bemutatni a termet és a közösséget prémium, hiteles módon
+    - Egyértelművé tenni a bérlet- és jegyárakat
+    - Bemutatni a személyi edzőket és elérhetőségüket
+    - Erős vizuális márkajelenlét építése a galérián keresztül
+docker:
+  enabled: true
+  port: 3000
+features:
+  adminPanel: true
+  blog: false
+  commerce: false
+  legalPages: true
+  aiSeo: true
+  githubActions: true
+deployment:
+  target: docker
+languages:
+  primary: hu
+  additional: []
+  country: HU
+generatedFiles:
+  - .cef/manifest.yaml
+  - .cef/memory.md
+  - .cef/project.json
+  - .cef/runtime.json
+  - .editorconfig
+  - .env
+  - .env.example
+  - .github/workflows/ci.yml
+  - .gitignore
+  - .prettierrc
+  - CLAUDE.md
+  - Dockerfile
+  - README.md
+  - content/legal/cookie-policy.md
+  - content/legal/impressum.md
+  - content/legal/privacy-policy.md
+  - content/legal/terms.md
+  - docker-compose.yml
+  - eslint.config.js
+  - package.json
+  - public/llms.txt
+  - public/robots.txt
+  - tsconfig.json

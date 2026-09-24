@@ -1,0 +1,35 @@
+{
+  "tool": "higgsfield",
+  "generatedAt": "2026-09-17T20:21:42.542Z",
+  "note": "Run these prompts through the Higgsfield MCP to generate and cache the images.",
+  "images": [
+    {
+      "id": "hero",
+      "kind": "hero",
+      "target": "public/images/hero.avif",
+      "prompt": "Hero image for a hospitality website. Professional precise, technical style, on-brand, accent color #e11d48, no text, high resolution.",
+      "alt": "koter-gym hero image"
+    },
+    {
+      "id": "background",
+      "kind": "background",
+      "target": "public/images/background.avif",
+      "prompt": "Subtle abstract background suited to a hospitality brand. Professional precise, technical style, on-brand, accent color #e11d48, no text, high resolution.",
+      "alt": ""
+    },
+    {
+      "id": "illustration",
+      "kind": "illustration",
+      "target": "public/images/illustration.avif",
+      "prompt": "Brand illustration representing hospitality services. Professional precise, technical style, on-brand, accent color #e11d48, no text, high resolution.",
+      "alt": "hospitality illustration"
+    },
+    {
+      "id": "marketing",
+      "kind": "marketing",
+      "target": "public/images/marketing.avif",
+      "prompt": "Marketing visual for koter-gym, a hospitality brand. Professional precise, technical style, on-brand, accent color #e11d48, no text, high resolution.",
+      "alt": "koter-gym marketing visual"
+    }
+  ]
+}

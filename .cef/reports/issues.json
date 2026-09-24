@@ -1,0 +1,89 @@
+{
+  "issues": [
+    {
+      "id": "security-1",
+      "gate": "security",
+      "severity": "major",
+      "message": "No security headers (CSP, etc.) are configured.",
+      "recommendation": "Add security headers via next.config or middleware before production."
+    },
+    {
+      "id": "content-2",
+      "gate": "content",
+      "severity": "major",
+      "message": "Placeholder testimonials must be replaced before launch.",
+      "file": "content/home.ts",
+      "recommendation": "Replace with real, attributed client quotes."
+    },
+    {
+      "id": "content-3",
+      "gate": "content",
+      "severity": "nit",
+      "message": "Grammar and tone require a human read-through before approval.",
+      "recommendation": "Proofread all shipped copy."
+    },
+    {
+      "id": "brand-4",
+      "gate": "brand",
+      "severity": "nit",
+      "message": "Brand alignment (voice, imagery, tone) needs a human sign-off.",
+      "recommendation": "Have the brand owner review before approval."
+    },
+    {
+      "id": "legal-5",
+      "gate": "legal",
+      "severity": "major",
+      "message": "Required legal page \"Privacy Policy\" is not individually generated.",
+      "recommendation": "Author the Privacy Policy page: Standard disclosure of data handling."
+    },
+    {
+      "id": "legal-6",
+      "gate": "legal",
+      "severity": "major",
+      "message": "Required legal page \"Terms of Service\" is not individually generated.",
+      "recommendation": "Author the Terms of Service page: Governs use of the site and services."
+    },
+    {
+      "id": "legal-7",
+      "gate": "legal",
+      "severity": "major",
+      "message": "Required legal page \"Cookie Policy\" is not individually generated.",
+      "recommendation": "Author the Cookie Policy page: Required where cookies or tracking are used."
+    },
+    {
+      "id": "legal-8",
+      "gate": "legal",
+      "severity": "major",
+      "message": "Required legal page \"Impresszum\" is not individually generated.",
+      "recommendation": "Author the Impresszum page: Hungarian law requires site operator identification."
+    },
+    {
+      "id": "legal-9",
+      "gate": "legal",
+      "severity": "major",
+      "message": "Required legal page \"Adatkezelési Tájékoztató\" is not individually generated.",
+      "recommendation": "Author the Adatkezelési Tájékoztató page: Hungarian GDPR data-processing notice."
+    },
+    {
+      "id": "legal-10",
+      "gate": "legal",
+      "severity": "major",
+      "message": "Required legal page \"Cookie Tájékoztató\" is not individually generated.",
+      "recommendation": "Author the Cookie Tájékoztató page: Hungarian cookie notice."
+    },
+    {
+      "id": "legal-11",
+      "gate": "legal",
+      "severity": "major",
+      "message": "Generated legal text requires review by a qualified legal professional.",
+      "recommendation": "Generated legal text is a draft only. It MUST be reviewed by a qualified legal professional before publication; CEF does not provide legal advice."
+    },
+    {
+      "id": "testing-12",
+      "gate": "testing",
+      "severity": "major",
+      "message": "No automated tests were generated.",
+      "recommendation": "Add behavior tests for critical paths before production."
+    }
+  ]
+}

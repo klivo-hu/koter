@@ -1,0 +1,16 @@
+# Kóter Gym & Crossfight Aréna
+
+> Edzőterem, küzdőtér és sportegyesület Hatvan belvárosában (Tabán út 13.), 2015 óta.
+> Szabad súlyok, erőgépek, kardió, crossfight és boksz, valamint csoportos foglalkozások
+> és tánctermi órák. Fighter & Builder Sportegyesület.
+
+## Oldalak
+- [Főoldal](/): a terem, a kínálat és a legfontosabb információk
+- [Árak](/arak): bérlet- és jegytípusok forintban
+- [Edzők](/edzok): személyi edzők, elérhetőséggel
+- [Galéria](/galeria): fotók a termekről, edzésekről és a csapatról
+- [Rólunk](/rolunk): bemutatkozás, csapat, elismerések, helyszín és közösségi oldalak
+
+## Megjegyzés
+Az árak, az edzők, a galéria, az elismerések és a jogi dokumentumok adatbázisból
+származnak, és az üzemeltető admin felületről szerkeszti őket.

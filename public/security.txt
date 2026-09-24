@@ -1,0 +1,4 @@
+# Biztonsági hibát találtál? Jelezd az üzemeltetőnek.
+# A kapcsolati e-mail cím az impresszumban és a lábléc "Elérhetőség" blokkjában található.
+Contact: https://kotergym.hu/jogi/impresszum
+Preferred-Languages: hu, en

@@ -1,0 +1,165 @@
+{
+  "artifacts": [
+    {
+      "id": ".cef/manifest.yaml",
+      "kind": "config",
+      "path": ".cef/manifest.yaml",
+      "title": "manifest.yaml",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".cef/memory.md",
+      "kind": "doc",
+      "path": ".cef/memory.md",
+      "title": "memory.md",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".cef/project.json",
+      "kind": "config",
+      "path": ".cef/project.json",
+      "title": "project.json",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".cef/runtime.json",
+      "kind": "config",
+      "path": ".cef/runtime.json",
+      "title": "runtime.json",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".editorconfig",
+      "kind": "config",
+      "path": ".editorconfig",
+      "title": ".editorconfig",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".env",
+      "kind": "config",
+      "path": ".env",
+      "title": ".env",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".env.example",
+      "kind": "config",
+      "path": ".env.example",
+      "title": ".env.example",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".github/workflows/ci.yml",
+      "kind": "config",
+      "path": ".github/workflows/ci.yml",
+      "title": "ci.yml",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".gitignore",
+      "kind": "config",
+      "path": ".gitignore",
+      "title": ".gitignore",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": ".prettierrc",
+      "kind": "config",
+      "path": ".prettierrc",
+      "title": ".prettierrc",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "CLAUDE.md",
+      "kind": "doc",
+      "path": "CLAUDE.md",
+      "title": "CLAUDE.md",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "content/legal/cookie-policy.md",
+      "kind": "legal",
+      "path": "content/legal/cookie-policy.md",
+      "title": "cookie-policy.md",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "content/legal/impressum.md",
+      "kind": "legal",
+      "path": "content/legal/impressum.md",
+      "title": "impressum.md",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "content/legal/privacy-policy.md",
+      "kind": "legal",
+      "path": "content/legal/privacy-policy.md",
+      "title": "privacy-policy.md",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "content/legal/terms.md",
+      "kind": "legal",
+      "path": "content/legal/terms.md",
+      "title": "terms.md",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "docker-compose.yml",
+      "kind": "docker",
+      "path": "docker-compose.yml",
+      "title": "docker-compose.yml",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "Dockerfile",
+      "kind": "docker",
+      "path": "Dockerfile",
+      "title": "Dockerfile",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "eslint.config.js",
+      "kind": "config",
+      "path": "eslint.config.js",
+      "title": "eslint.config.js",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "package.json",
+      "kind": "config",
+      "path": "package.json",
+      "title": "package.json",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "public/llms.txt",
+      "kind": "other",
+      "path": "public/llms.txt",
+      "title": "llms.txt",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "public/robots.txt",
+      "kind": "other",
+      "path": "public/robots.txt",
+      "title": "robots.txt",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "README.md",
+      "kind": "doc",
+      "path": "README.md",
+      "title": "README.md",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    },
+    {
+      "id": "tsconfig.json",
+      "kind": "config",
+      "path": "tsconfig.json",
+      "title": "tsconfig.json",
+      "createdAt": "2026-09-17T19:58:27.441Z"
+    }
+  ]
+}

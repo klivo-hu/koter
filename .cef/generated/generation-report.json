@@ -1,0 +1,112 @@
+{
+  "projectName": "koter-gym",
+  "generatedAt": "2026-09-17T20:21:42.542Z",
+  "ok": true,
+  "totalFiles": 61,
+  "totalArtifacts": 77,
+  "stages": [
+    {
+      "stageId": "architecture",
+      "stageName": "Architecture Builder",
+      "status": "completed",
+      "summary": "Project architecture from blueprint (10 files).",
+      "fileCount": 10,
+      "issueCount": 0
+    },
+    {
+      "stageId": "layout",
+      "stageName": "Layout Builder",
+      "status": "completed",
+      "summary": "Shared shell and navigation (4 files).",
+      "fileCount": 4,
+      "issueCount": 0
+    },
+    {
+      "stageId": "component",
+      "stageName": "Component Builder",
+      "status": "completed",
+      "summary": "Reusable components (8).",
+      "fileCount": 8,
+      "issueCount": 0
+    },
+    {
+      "stageId": "page",
+      "stageName": "Page Builder",
+      "status": "completed",
+      "summary": "Pages composed from the blueprint (12).",
+      "fileCount": 12,
+      "issueCount": 0
+    },
+    {
+      "stageId": "seo",
+      "stageName": "SEO Builder",
+      "status": "completed",
+      "summary": "SEO and discovery artifacts (9).",
+      "fileCount": 9,
+      "issueCount": 0
+    },
+    {
+      "stageId": "content",
+      "stageName": "Content Builder",
+      "status": "completed",
+      "summary": "Content modules (12).",
+      "fileCount": 12,
+      "issueCount": 0
+    },
+    {
+      "stageId": "asset",
+      "stageName": "Asset Builder",
+      "status": "completed",
+      "summary": "Image prompts and manifest (4 images planned).",
+      "fileCount": 2,
+      "issueCount": 0
+    },
+    {
+      "stageId": "deployment",
+      "stageName": "Deployment Builder",
+      "status": "completed",
+      "summary": "Docker deploy bundle for the hosting platform (4 files).",
+      "fileCount": 4,
+      "issueCount": 0
+    },
+    {
+      "stageId": "validation",
+      "stageName": "Validation",
+      "status": "completed",
+      "summary": "Validation passed.",
+      "fileCount": 0,
+      "issueCount": 0
+    },
+    {
+      "stageId": "review",
+      "stageName": "Review",
+      "status": "completed",
+      "summary": "Review passed.",
+      "fileCount": 0,
+      "issueCount": 0
+    },
+    {
+      "stageId": "repair",
+      "stageName": "Repair",
+      "status": "completed",
+      "summary": "Applied 0 fix(es) across 0 file(s).",
+      "fileCount": 0,
+      "issueCount": 0
+    }
+  ],
+  "artifactsByKind": {
+    "config": 10,
+    "layout": 1,
+    "component": 11,
+    "page": 12,
+    "route": 12,
+    "seo": 6,
+    "image": 5,
+    "schema": 1,
+    "metadata": 1,
+    "content": 12,
+    "asset": 2,
+    "docker": 4
+  },
+  "issues": []
+}

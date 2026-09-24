@@ -1,0 +1,24 @@
+{
+  "name": "koter-gym",
+  "framework": "nextjs",
+  "version": "0.1.0",
+  "createdDate": "2026-09-17T19:58:27.441Z",
+  "cefVersion": "0.0.0",
+  "packageManager": "npm",
+  "language": "typescript",
+  "buildSystem": "next",
+  "deployment": "docker",
+  "database": "sqlite",
+  "orm": "none",
+  "cms": "none",
+  "authentication": "jwt",
+  "features": {
+    "adminPanel": true,
+    "blog": false,
+    "commerce": false,
+    "legalPages": true,
+    "aiSeo": true,
+    "githubActions": true,
+    "docker": true
+  }
+}

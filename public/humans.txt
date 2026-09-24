@@ -1,0 +1,9 @@
+/* CSAPAT */
+Kóter Gym & Crossfight Aréna
+Hatvan, Magyarország
+2015 óta
+
+/* OLDAL */
+Nyelv: magyar
+Készült: Next.js (App Router), TypeScript, Tailwind CSS, GSAP
+Keretrendszer: Claude Enterprise Framework (CEF)

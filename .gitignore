@@ -1,0 +1,36 @@
+# Dependencies
+node_modules/
+.pnp/
+.yarn/
+
+# Build output
+.next/
+out/
+dist/
+build/
+*.tsbuildinfo
+next-env.d.ts
+
+# Environment & secrets — never commit real values; .env.example is the template
+.env
+.env.*
+!.env.example
+
+# Runtime data: the SQLite database and uploaded images live on a mounted
+# volume, not in the repository.
+/data/
+
+# Logs & caches
+logs/
+*.log
+npm-debug.log*
+.cache/
+.eslintcache
+coverage/
+
+# OS & editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/*
+!.vscode/extensions.json

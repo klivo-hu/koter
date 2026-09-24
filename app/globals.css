@@ -1,0 +1,444 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/*
+ * KÓTER GYM & CROSSFIGHT ARÉNA — design system
+ *
+ * Built on the CEF design-token contract (--cef-*), with the Kóter brand
+ * resolved into it. The public surface is a single dark, editorial theme:
+ * near-black ground, bone type, one controlled red accent.
+ *
+ * Contrast (WCAG 2.2):
+ *   bone  #F2F0ED on ink #060607 ....... 18.9:1  AAA
+ *   bone  #F2F0ED on red #D7141A .......  4.6:1  AA  (normal text)
+ *   red   #D7141A on ink #060607 .......  3.9:1  AA  (large text / UI only)
+ *   muted #9A9AA2 on ink #060607 .......  7.4:1  AA
+ * Red is never used for small body text — only display type, rules and UI.
+ */
+
+:root {
+  /* ---- brand ramp ---- */
+  --k-ink: #060607;
+  --k-ink-raised: #0c0c0e;
+  --k-ink-card: #101013;
+  --k-bone: #f2f0ed;
+  --k-muted: #9a9aa2;
+  --k-line: rgb(242 240 237 / 0.1);
+  --k-line-strong: rgb(242 240 237 / 0.22);
+  --k-red: #d7141a;
+  --k-red-hot: #ff2f36;
+
+  /* ---- CEF semantic token contract ---- */
+  --cef-background: var(--k-ink);
+  --cef-surface: var(--k-ink-raised);
+  --cef-surface-raised: var(--k-ink-card);
+  --cef-foreground: var(--k-bone);
+  --cef-muted: var(--k-muted);
+  --cef-border: var(--k-line);
+  --cef-primary: var(--k-red);
+  --cef-primary-foreground: var(--k-bone);
+  --cef-accent: var(--k-bone);
+  --cef-accent-foreground: var(--k-ink);
+  --cef-danger: #ff5a5f;
+  --cef-success: #4ade80;
+  --cef-warning: #fbbf24;
+  --cef-focus: var(--k-red-hot);
+
+  /* ---- type scale (fluid, editorial) ---- */
+  /*
+   * Sized so the hero's longest line — "TARTOZZ KÖZÉNK." — sets on one line from
+   * the tablet breakpoint up, and the whole hero still fits one viewport.
+   */
+  --k-display-hero: clamp(2.5rem, 8vw, 7.5rem);
+  --k-display-xl: clamp(2.5rem, 7vw, 6rem);
+  --k-display-lg: clamp(2rem, 4.8vw, 3.75rem);
+  --k-display-md: clamp(1.5rem, 3vw, 2.5rem);
+  --k-title: clamp(1.25rem, 1.6vw, 1.625rem);
+  --k-body: 1rem;
+  --k-small: 0.875rem;
+  --k-micro: 0.75rem;
+
+  /* ---- rhythm ---- */
+  --k-section: clamp(5.5rem, 11vw, 11rem);
+  --k-section-tight: clamp(4rem, 7vw, 7rem);
+  --k-gutter: clamp(1.25rem, 4vw, 3rem);
+  --k-measure: 62ch;
+
+  /* ---- motion ---- */
+  --k-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --k-ease-in: cubic-bezier(0.55, 0, 1, 0.45);
+  --k-fast: 200ms;
+  --k-normal: 420ms;
+  --k-slow: 760ms;
+
+  --k-header-h: 76px;
+
+  color-scheme: dark;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --k-header-h: 92px;
+  }
+}
+
+/* ------------------------------------------------------------------ base */
+
+@layer base {
+  * {
+    border-color: var(--k-line);
+    min-width: 0;
+  }
+
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--k-ink);
+    color: var(--k-bone);
+    font-family: var(--font-body), system-ui, -apple-system, 'Segoe UI', sans-serif;
+    font-size: var(--k-body);
+    line-height: 1.65;
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    /* No horizontal overflow on any viewport. */
+    overflow-x: clip;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display), var(--font-body), system-ui, sans-serif;
+    font-weight: 800;
+    line-height: 0.92;
+    letter-spacing: -0.03em;
+    text-wrap: balance;
+    hyphens: manual;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--k-red);
+    color: var(--k-bone);
+  }
+
+  /* One visible, brand-consistent focus ring everywhere. */
+  :focus-visible {
+    outline: 2px solid var(--k-red-hot);
+    outline-offset: 3px;
+    border-radius: 2px;
+  }
+
+  /* Stop the browser painting white behind late-decoding images. */
+  img {
+    background-color: var(--k-ink-raised);
+  }
+
+  [hidden] {
+    display: none !important;
+  }
+}
+
+/* -------------------------------------------------------------- utilities */
+
+@layer components {
+  .k-container {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: var(--k-gutter);
+  }
+
+  .k-container-tight {
+    width: 100%;
+    max-width: 1120px;
+    margin-inline: auto;
+    padding-inline: var(--k-gutter);
+  }
+
+  .k-section {
+    padding-block: var(--k-section);
+  }
+
+  .k-section-tight {
+    padding-block: var(--k-section-tight);
+  }
+
+  /*
+   * Editorial display type — the site's loudest voice.
+   *
+   * Set in caps to match the brand's own lettering, but authored in sentence
+   * case and uppercased here: screen readers announce "Gyere" as a word rather
+   * than spelling out G-Y-E-R-E. Caps need far less negative tracking than
+   * lowercase, hence the gentler letter-spacing.
+   */
+  .k-display-hero {
+    font-size: var(--k-display-hero);
+    line-height: 0.85;
+    letter-spacing: -0.02em;
+    font-weight: 800;
+    text-transform: uppercase;
+    font-variation-settings: 'wdth' 108;
+  }
+
+  .k-display-xl {
+    font-size: var(--k-display-xl);
+    line-height: 0.88;
+    letter-spacing: -0.018em;
+    text-transform: uppercase;
+    font-variation-settings: 'wdth' 106;
+  }
+
+  .k-display-lg {
+    font-size: var(--k-display-lg);
+    line-height: 0.92;
+    letter-spacing: -0.015em;
+    text-transform: uppercase;
+  }
+
+  .k-display-md {
+    font-size: var(--k-display-md);
+    line-height: 1.02;
+    letter-spacing: -0.01em;
+    text-transform: uppercase;
+  }
+
+  .k-lead {
+    font-size: clamp(1.0625rem, 1.5vw, 1.375rem);
+    line-height: 1.5;
+    color: var(--k-bone);
+    max-width: var(--k-measure);
+  }
+
+  .k-body-muted {
+    color: var(--k-muted);
+    max-width: var(--k-measure);
+  }
+
+  /* Hairline rule used to separate editorial blocks. */
+  .k-rule {
+    height: 1px;
+    background-color: var(--k-line);
+    border: 0;
+  }
+
+  /* The index numerals that structure the editorial sections. */
+  .k-index {
+    font-family: var(--font-display), sans-serif;
+    font-size: var(--k-micro);
+    letter-spacing: 0.32em;
+    text-transform: uppercase;
+    color: var(--k-muted);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+  }
+
+  /*
+   * The mobile navigation panel. CSS owns whether it is shown; GSAP only plays
+   * the transition and clears its inline styles afterwards, so an interrupted
+   * animation can never leave the menu stuck half-open.
+   */
+  .k-mobile-panel[data-open='false'] {
+    opacity: 0;
+    visibility: hidden;
+  }
+
+  .k-mobile-panel[data-open='true'] {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Media frame: reserves space, never flashes white, never shifts. */
+  .k-media {
+    position: relative;
+    overflow: hidden;
+    background-color: var(--k-ink-raised);
+    isolation: isolate;
+  }
+
+  .k-media > img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  /*
+   * Section surfaces: the gym's own materials behind the content — the turf
+   * strip and dark steel tread plate (drawn by scripts/build-textures.ts).
+   * They are referenced by relative path, so the build emits them with hashed
+   * names and a year-long immutable cache instead of serving them from public/.
+   *
+   * The texture sits on a pseudo-element under the content, darkened far enough
+   * that muted body text keeps its AA contrast, and is masked to fade out at the
+   * top and bottom: a textured section melts into its plain neighbours instead
+   * of meeting them at a hard line, so these sections carry no hairline border.
+   * Pages alternate them with plain sections and never put two surfaces of the
+   * same kind next to each other.
+   */
+  .k-surface-turf,
+  .k-surface-metal {
+    position: relative;
+    isolation: isolate;
+  }
+
+  .k-surface-turf::before,
+  .k-surface-metal::before {
+    --k-fade: clamp(3rem, 8vw, 7rem);
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 var(--k-fade),
+      #000 calc(100% - var(--k-fade)),
+      transparent
+    );
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      #000 var(--k-fade),
+      #000 calc(100% - var(--k-fade)),
+      transparent
+    );
+  }
+
+  .k-surface-turf::before {
+    background:
+      linear-gradient(rgb(6 6 7 / 0.6), rgb(6 6 7 / 0.6)),
+      url('../assets/textures/turf.webp') center / 384px repeat;
+  }
+
+  /* The plate is lit from the middle and falls into shadow towards the edges. */
+  .k-surface-metal::before {
+    background:
+      radial-gradient(ellipse 80% 70% at 50% 40%, rgb(6 6 7 / 0.22), rgb(6 6 7 / 0.62)),
+      url('../assets/textures/metal.webp') center / 480px repeat;
+  }
+}
+
+/* ------------------------------------------------------- motion + a11y */
+
+/*
+ * Elements GSAP reveals are only hidden once the controller has actually
+ * mounted (it adds .k-motion-ready). If the script fails or never loads, the
+ * page stays fully visible rather than blank.
+ */
+html.k-motion-ready [data-reveal]:not(.k-revealed) {
+  opacity: 0;
+}
+
+/*
+ * First-screen entrances: the hero headline, lead and action, and every page
+ * header. They animate with CSS alone, from the first paint, so the largest
+ * text on the screen never waits for the JavaScript bundle — on a phone that
+ * can arrive seconds later. Scroll reveals further down stay with GSAP.
+ *
+ * .k-intro on a headline slides each .k-line-inner up out of its mask, one
+ * after another (--k-line-index); .k-intro-rise fades an element up. Both start
+ * after --k-intro-delay. The curve is GSAP's power3.out, the one the scroll
+ * reveals use, so both kinds of motion move alike.
+ */
+@keyframes k-intro-line {
+  from {
+    transform: translateY(145%);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+
+@keyframes k-intro-rise {
+  from {
+    opacity: 0;
+    transform: translateY(28px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.k-intro .k-line-inner {
+  animation: k-intro-line 1.15s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation-delay: calc(var(--k-intro-delay, 0s) + var(--k-line-index, 0) * 0.09s);
+}
+
+.k-intro-rise {
+  animation: k-intro-rise 0.62s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation-delay: var(--k-intro-delay, 0s);
+}
+
+/*
+ * A headline line: the inner span slides up out of its own clipped box.
+ *
+ * The box is padded out on both sides and pulled back in with negative margins,
+ * so clipping never eats a descender or — the reason the padding is this
+ * generous at the top — a Hungarian double acute on Ő and Ű.
+ */
+.k-line {
+  display: block;
+  overflow: hidden;
+  padding-top: 0.22em;
+  margin-top: -0.22em;
+  padding-bottom: 0.1em;
+  margin-bottom: -0.1em;
+}
+
+.k-line-inner {
+  display: block;
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  /* No entrance at all: the delay alone would hide the text for a moment. */
+  .k-intro .k-line-inner,
+  .k-intro-rise {
+    animation: none;
+  }
+
+  html.k-motion-ready [data-reveal]:not(.k-revealed) {
+    opacity: 1;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Screen-reader-only text that becomes visible on focus. */
+.k-skip {
+  position: absolute;
+  left: -9999px;
+  top: 0;
+  z-index: 100;
+}
+
+.k-skip:focus {
+  left: var(--k-gutter);
+  top: 1rem;
+  background: var(--k-bone);
+  color: var(--k-ink);
+  padding: 0.75rem 1.25rem;
+  font-weight: 700;
+}

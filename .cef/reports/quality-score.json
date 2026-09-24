@@ -1,0 +1,36 @@
+{
+  "projectName": "koter-gym",
+  "reviewedAt": "2026-09-18T13:49:08.172Z",
+  "overall": 88,
+  "readiness": 85,
+  "recommendation": "conditional",
+  "requiredPassed": true,
+  "byGate": {
+    "architecture": 100,
+    "design": 100,
+    "accessibility": 100,
+    "performance": 100,
+    "seo": 100,
+    "security": 85,
+    "content": 84,
+    "brand": 99,
+    "legal": 0,
+    "docker": 100,
+    "testing": 85,
+    "documentation": 100
+  },
+  "gateStatus": {
+    "architecture": "pass",
+    "design": "pass",
+    "accessibility": "pass",
+    "performance": "pass",
+    "seo": "pass",
+    "security": "warn",
+    "content": "warn",
+    "brand": "pass",
+    "legal": "warn",
+    "docker": "pass",
+    "testing": "warn",
+    "documentation": "pass"
+  }
+}

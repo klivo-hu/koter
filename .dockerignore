@@ -1,0 +1,31 @@
+# Never ship secrets or local state into the build context.
+.env
+.env.*
+!.env.example
+data/
+
+# Dependencies and build output are produced inside the image.
+node_modules
+.next
+out
+
+# Repository and tooling noise.
+.git
+.github
+.claude
+.cef
+*.log
+npm-debug.log*
+coverage
+.vscode
+.idea
+
+# Original photographs: only the derivatives in assets/ and public/gallery/ are
+# served, and those are committed. Keeping the ~4 MB of originals out of the
+# context speeds up every build.
+source-assets
+
+# Compose files are not needed inside the image.
+docker-compose*.yml
+Dockerfile
+.dockerignore
