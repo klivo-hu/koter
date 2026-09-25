@@ -14,10 +14,14 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    # `environment` wins over `env_file`, so a production .env cannot move the
+    # listener off the published port or point canonical URLs at the live domain.
+    # SITE_URL is the variable the app reads first (lib/seo/site-url.ts).
     environment:
-      NEXT_PUBLIC_SITE_URL: http://localhost:8080
+      PORT: '3000'
+      SITE_URL: http://localhost:8080
     ports:
-      - '8080:80'
+      - '8080:3000'
     volumes:
       - koter-gym-data:/app/data
     logging:

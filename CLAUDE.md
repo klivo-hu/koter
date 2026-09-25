@@ -30,7 +30,8 @@ public site for a gym in Hatvan, plus a JWT-protected back office.
 - Styling: **Tailwind CSS**, wired to the CSS custom properties in `app/globals.css`
 - Animation: **GSAP + ScrollTrigger** (not framer-motion)
 - Data: **SQLite** via `better-sqlite3` · Auth: **JWT** (`jose`) + scrypt · CMS: **none** (own admin)
-- Images: `next/image` + `sharp` · Deployment: **Docker** (one container, port 80)
+- Images: `next/image` + `sharp` · Deployment: **Docker** (one container, port 3000 —
+  must match the hosting panel's Container port; see `deploy/DEPLOY.md`)
 - Node: **22 LTS** — matches the Docker image; `better-sqlite3` has no prebuild for Node 24.
 
 ## Rules that are not negotiable here

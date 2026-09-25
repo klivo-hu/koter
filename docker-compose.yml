@@ -1,10 +1,16 @@
 # Deploys to the Klivo Docker hosting platform (Traefik file-provider routing).
 #
-# The service, container and network names embed the platform client slug,
-# "koter" (the panel client lives at clients/koter). The platform only lets a
-# site join its own client's network, client_<slug>_net, so these three names
-# must follow the slug if it ever changes. (CEF generated them from the
-# project name, koter-gym, which is not the slug the panel uses.)
+# Traefik routes the domain to http://<container_name>:<container port>, both
+# taken from the panel, so two things here must agree with the panel's site:
+#
+#   - Names. The platform names the live container hosting_<client>_web when the
+#     site slug equals the client slug (the site created together with the
+#     client), and hosting_<client>_<site>_web otherwise. It only lets a site
+#     join its own client's network, client_<client>_net. Client and site are
+#     both "koter" (clients/koter/sites/koter), so all three names below embed
+#     that slug and must follow it if it ever changes.
+#   - Port. The image listens on 3000, so the panel's "Container port" must be
+#     3000. PORT in .env, if set, must hold the same value.
 #
 # The named volume is not optional: the SQLite database and every uploaded
 # image live under /app/data, so without it a redeploy would discard the gym's
@@ -19,8 +25,10 @@ services:
     restart: unless-stopped
     env_file:
       - .env
+    # No host port: traffic arrives through Traefik on the client network, and
+    # Traefik terminates HTTPS.
     expose:
-      - '80'
+      - '3000'
     volumes:
       - koter-gym-data:/app/data
     networks:
