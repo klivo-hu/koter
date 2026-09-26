@@ -47,7 +47,7 @@ export default async function LegalPageView({ params }: Params): Promise<React.J
       <section className="k-section-tight">
         <div className="k-container grid gap-14 lg:grid-cols-12 lg:gap-16">
           <article className="lg:col-span-8">
-            <div className="border-t border-[var(--k-line)] pt-12" data-reveal="up">
+            <div data-reveal="up">
               <RichText content={page.content} />
             </div>
             {updatedLabel !== '' && (
@@ -59,7 +59,7 @@ export default async function LegalPageView({ params }: Params): Promise<React.J
 
           {others.length > 0 && (
             <nav aria-label="További jogi oldalak" className="lg:col-span-3 lg:col-start-10">
-              <h2 className="k-index mb-6 border-t border-[var(--k-line)] pt-12">További dokumentumok</h2>
+              <h2 className="k-index mb-6">További dokumentumok</h2>
               <ul className="flex flex-col gap-3">
                 {others.map((item) => (
                   <li key={item.slug}>

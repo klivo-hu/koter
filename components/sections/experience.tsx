@@ -57,9 +57,12 @@ const OFFERS: readonly Offer[] = [
  *
  * Four offers as alternating rows — photograph on one side, the offer on the
  * other, swapping sides row by row so the eye zig-zags down the section. Each row
- * says what it is (the red title), why you would want it (one line in caps), how
- * it works (one short paragraph), and where to go next. Personal training, the
- * last row, is the one solid action: it leads to the trainers.
+ * says what it is (the title), why you would want it (one line in caps), how it
+ * works (one short paragraph), and where to go next. Personal training, the last
+ * row, is the one solid action: it leads to the trainers.
+ *
+ * Red appears here only as the rule under each title, never as text: red type on
+ * the green turf clashes and loses contrast against its texture.
  *
  * On narrow screens every row stacks photograph-first, the same way each time.
  */
@@ -98,8 +101,12 @@ export function Experience(): React.JSX.Element {
                   className={cn('lg:col-span-5 lg:row-start-1', flipped ? 'lg:col-start-1' : 'lg:col-start-8')}
                   data-reveal="group"
                 >
-                  <h3 className="k-display-lg text-[var(--k-red)]">{offer.title}</h3>
-                  <p className="mt-5 font-display text-[length:var(--k-title)] font-bold uppercase leading-tight tracking-[0.01em] text-[var(--k-bone)]">
+                  <h3 className="k-display-lg text-[var(--k-bone)]">{offer.title}</h3>
+                  <span
+                    aria-hidden="true"
+                    className="mt-6 block h-[2px] w-16 bg-[var(--k-red)] transition-[width] duration-500 ease-out group-hover:w-28"
+                  />
+                  <p className="mt-6 font-display text-[length:var(--k-title)] font-bold uppercase leading-tight tracking-[0.01em] text-[var(--k-bone)]">
                     {offer.tagline}
                   </p>
                   <p className="k-body-muted mt-4">{offer.body}</p>

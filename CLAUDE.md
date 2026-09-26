@@ -62,7 +62,10 @@ Defined once in `app/globals.css` as CSS custom properties, exposed to Tailwind 
 `tailwind.config.ts`, and mapped onto CEF's `--cef-*` token contract.
 
 - Ground `#060607`, type `#F2F0ED`, one red accent `#D7141A`.
-- Red is for display type, rules and UI only — never small body text (3.9:1).
+- Red is for display type, rules and UI only — never small body text (3.9:1),
+  and never as text on the turf surface, where it clashes; use a red rule there.
+- No hairline borders between sections (or under the header): sections are told
+  apart by surface and space, and surfaces fade in and out (`.k-surface-*`).
 - Two families: Archivo (display, uppercase, variable width axis) and Inter (text).
 - No eyebrow labels, status pills, badges or decorative icons anywhere on the public site.
 

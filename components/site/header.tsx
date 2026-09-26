@@ -14,8 +14,9 @@ import { NAV, SITE_NAME } from '@/lib/site';
  * The site header.
  *
  * Transparent over the hero, and once the page scrolls past it, a solid dark bar
- * with a hairline under it. That is the only thing it reacts to — no hide-on-
- * scroll, no shrinking, no animated logo.
+ * that shades softly into the page beneath — a shadow, not a hairline, so it
+ * never cuts across the sections' flow. That is the only thing it reacts to — no
+ * hide-on-scroll, no shrinking, no animated logo.
  *
  * On small screens the navigation becomes a full-screen panel: focus is trapped
  * inside it while open, Escape closes it, and the page behind it cannot scroll.
@@ -127,10 +128,10 @@ export function Header(): React.JSX.Element {
     <>
       <header
         className={cn(
-          'fixed inset-x-0 top-0 z-[80] transition-colors duration-300 ease-out',
+          'fixed inset-x-0 top-0 z-[80] transition-[background-color,box-shadow] duration-300 ease-out',
           scrolled || open
-            ? 'border-b border-[var(--k-line)] bg-[rgba(6,6,7,0.92)] backdrop-blur-md'
-            : 'border-b border-transparent bg-transparent',
+            ? 'bg-[rgba(6,6,7,0.92)] shadow-[0_18px_36px_-24px_rgb(0_0_0/0.9)] backdrop-blur-md'
+            : 'bg-transparent',
         )}
         style={{ height: 'var(--k-header-h)' }}
       >

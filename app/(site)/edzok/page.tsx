@@ -31,12 +31,12 @@ export default function TrainersPage(): React.JSX.Element {
       <section className="k-section-tight k-surface-metal">
         <div className="k-container">
           {trainers.length === 0 ? (
-            <p className="k-body-muted border-t border-[var(--k-line)] pt-10">
+            <p className="k-body-muted">
               Az edzők bemutatkozása hamarosan felkerül. Addig is kérdezz a recepción — megmondjuk, ki mivel foglalkozik.
             </p>
           ) : (
             <div
-              className="grid gap-x-8 gap-y-16 border-t border-[var(--k-line)] pt-14 sm:grid-cols-2 lg:grid-cols-3"
+              className="grid gap-x-8 gap-y-16 sm:grid-cols-2 lg:grid-cols-3"
               data-reveal="group"
             >
               {trainers.map((trainer) => (

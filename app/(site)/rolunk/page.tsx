@@ -3,7 +3,7 @@ import awardImage from '@/assets/award.webp';
 import teamMain from '@/assets/team-main.webp';
 import teamSecond from '@/assets/team-second.webp';
 import { LocationSection } from '@/components/sections/location-section';
-import { SocialLinks, socialLinksFrom } from '@/components/site/social-links';
+import { SocialSection } from '@/components/sections/social-section';
 import { StaticImage } from '@/components/ui/media';
 import { PageHeader } from '@/components/ui/page-header';
 import { SectionHeading } from '@/components/ui/section-heading';
@@ -25,7 +25,6 @@ export const metadata: Metadata = {
 export default function AboutPage(): React.JSX.Element {
   const settings = getSettings();
   const awards = listAwards();
-  const socials = socialLinksFrom(settings);
 
   const heading = settings['about_heading'] ?? 'Gyere, tartozz közénk.';
   const intro = settings['about_intro'] ?? '';
@@ -51,7 +50,7 @@ export default function AboutPage(): React.JSX.Element {
       {/* The admin's own copy: the first paragraph set large, the rest beside it. */}
       {opening !== '' && (
         <section className="pb-[var(--k-section-tight)] pt-10 lg:pt-14">
-          <div className="k-container grid gap-8 border-t border-[var(--k-line)] pt-10 lg:grid-cols-12 lg:gap-16 lg:pt-14">
+          <div className="k-container grid gap-8 lg:grid-cols-12 lg:gap-16">
             <p className="k-lead whitespace-pre-line lg:col-span-6" data-reveal="up">
               {opening}
             </p>
@@ -180,19 +179,7 @@ export default function AboutPage(): React.JSX.Element {
       <LocationSection settings={settings} />
 
       {/* ------------------------------------------------------------ social */}
-      {socials.length > 0 && (
-        <section className="k-section">
-          <div className="k-container">
-            <SectionHeading lines={['Kövess', 'minket.']} size="xl" />
-            <p className="k-body-muted mt-8">
-              Edzésvideók, versenybeszámolók és minden, ami a teremben történik.
-            </p>
-            <div className="mt-12 border border-[var(--k-line)] lg:mt-16" data-reveal="up">
-              <SocialLinks links={socials} variant="stacked" />
-            </div>
-          </div>
-        </section>
-      )}
+      <SocialSection settings={settings} />
     </>
   );
 }

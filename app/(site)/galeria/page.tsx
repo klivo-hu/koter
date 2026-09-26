@@ -32,7 +32,7 @@ export default function GalleryPage(): React.JSX.Element {
       <section className="k-section-tight">
         {items.length === 0 ? (
           <div className="k-container">
-            <p className="k-body-muted border-t border-[var(--k-line)] pt-10">A galéria feltöltés alatt.</p>
+            <p className="k-body-muted">A galéria feltöltés alatt.</p>
           </div>
         ) : (
           <GalleryGrid items={items} />

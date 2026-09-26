@@ -280,18 +280,21 @@
    * The texture sits on a pseudo-element under the content, darkened far enough
    * that muted body text keeps its AA contrast, and is masked to fade out at the
    * top and bottom: a textured section melts into its plain neighbours instead
-   * of meeting them at a hard line, so these sections carry no hairline border.
-   * Pages alternate them with plain sections and never put two surfaces of the
-   * same kind next to each other.
+   * of meeting them at a hard line. No section on the public site carries a
+   * hairline border at its edge — sections are told apart by surface and space,
+   * so the page reads as one continuous flow. Pages alternate surfaces with
+   * plain sections and never put two of the same kind next to each other.
    */
   .k-surface-turf,
-  .k-surface-metal {
+  .k-surface-metal,
+  .k-surface-raised {
     position: relative;
     isolation: isolate;
   }
 
   .k-surface-turf::before,
-  .k-surface-metal::before {
+  .k-surface-metal::before,
+  .k-surface-raised::before {
     --k-fade: clamp(3rem, 8vw, 7rem);
     content: '';
     position: absolute;
@@ -312,6 +315,11 @@
       #000 calc(100% - var(--k-fade)),
       transparent
     );
+  }
+
+  /* A plain band a step lighter than the ground, faded in and out the same way. */
+  .k-surface-raised::before {
+    background-color: var(--k-ink-raised);
   }
 
   .k-surface-turf::before {
@@ -507,6 +515,29 @@ html:not(.k-curtain-skip):has(.k-curtain) .k-hero {
 .k-consent[data-reviewing] {
   animation-duration: 0.36s;
   animation-delay: 0s;
+}
+
+/*
+ * On desktop the notice spans the foot of the screen, right where the hero sets
+ * its lead and action. While it is up on a first visit, the hero's content sits
+ * clear of it (the notice is ≈204px tall at 1024px wide, where its copy wraps to
+ * four lines, and ≈158px from 1280px up); once the visitor answers, the content
+ * eases back down. Reopening the notice from the footer leaves the hero alone.
+ */
+@media (min-width: 1024px) {
+  .k-hero-content {
+    transition: padding-bottom 0.8s var(--k-ease);
+  }
+
+  html:has(.k-consent:not([data-reviewing])) .k-hero-content {
+    padding-bottom: 15.5rem;
+  }
+}
+
+@media (min-width: 1280px) {
+  html:has(.k-consent:not([data-reviewing])) .k-hero-content {
+    padding-bottom: 12.5rem;
+  }
 }
 
 /*

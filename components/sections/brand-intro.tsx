@@ -7,16 +7,18 @@ const STATS = [
 ] as const;
 
 /**
- * The first thing after the hero: the attitude, in one compact band.
+ * The first thing after the hero: what it is like to train here, in one compact
+ * band.
  *
  * Type only — the hero above and the feature rows below carry the photographs,
  * and what the gym is equipped with is told row by row there, so this band says
- * only how it is run. The headline and the two sentences share a row, with the
- * three figures ruled off beneath them.
+ * who is welcome and how they are looked after. The headline and the two
+ * sentences share a row; the three figures sit beneath, divided only from each
+ * other, so nothing rules the band off from the sections around it.
  */
 export function BrandIntro(): React.JSX.Element {
   return (
-    <section className="k-section-tight border-t border-[var(--k-line)]">
+    <section className="k-section-tight">
       <div className="k-container">
         <div className="grid gap-10 lg:grid-cols-12 lg:items-end lg:gap-16">
           <div className="lg:col-span-6">
@@ -25,19 +27,21 @@ export function BrandIntro(): React.JSX.Element {
 
           <div className="flex flex-col gap-5 lg:col-span-5 lg:col-start-8" data-reveal="group">
             <p className="k-lead">
-              2015 óta ugyanazzal a hozzáállással: aki bejön, azt megnézik, megszólítják, és ha kell, kijavítják.
+              Nálunk nem számít, honnan indulsz. Akár most lépsz be először edzőterembe, akár évek óta edzel, itt a
+              saját tempódban fejlődhetsz.
             </p>
             <p className="k-body-muted">
-              Nem arctalan bérletgyár — közösség, ahol számon kérik rajtad, ha két hétig nem jössz.
+              2015 óta barátságos közösség vagyunk Hatvan belvárosában. Ha elakadsz, szólj bátran: segítünk beállítani
+              a gépet, megmutatjuk a helyes technikát — és mindig örülünk, ha újra látunk.
             </p>
           </div>
         </div>
 
-        <dl className="mt-12 grid grid-cols-3 border-y border-[var(--k-line)] lg:mt-16" data-reveal="group">
+        <dl className="mt-12 grid grid-cols-3 lg:mt-16" data-reveal="group">
           {STATS.map((stat) => (
             <div
               key={stat.label}
-              className="flex flex-col-reverse justify-end gap-2 border-l border-[var(--k-line)] py-6 pl-4 first:border-l-0 first:pl-0 sm:py-8 sm:pl-8 lg:pl-10"
+              className="flex flex-col-reverse justify-end gap-2 border-l border-[var(--k-line)] py-2 pl-4 first:border-l-0 first:pl-0 sm:pl-8 lg:pl-10"
             >
               <dt className="text-[0.6875rem] uppercase tracking-[0.18em] text-[var(--k-muted)] sm:text-xs">
                 {stat.label}

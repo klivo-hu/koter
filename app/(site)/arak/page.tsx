@@ -28,10 +28,10 @@ export default function PricingPage(): React.JSX.Element {
         lead="Egy bérlet, az egész terem. Nincs külön díj a küzdőtérért vagy a kardió részlegért."
       />
 
-      <section className="k-section-tight k-surface-turf">
+      <section className="k-section-tight k-surface-metal">
         <div className="k-container">
           {items.length === 0 ? (
-            <p className="k-body-muted border-t border-[var(--k-line)] pt-10">
+            <p className="k-body-muted">
               Az árak frissítés alatt. Gyere be a terembe, és megmondjuk pontosan.
             </p>
           ) : (

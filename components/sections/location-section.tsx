@@ -33,7 +33,7 @@ export function LocationSection({ settings }: { settings: SiteSettings }): React
   ].filter((detail) => detail.value !== '');
 
   return (
-    <section aria-labelledby="helyszin" className="k-section-tight border-t border-[var(--k-line)] bg-[var(--k-ink-raised)]">
+    <section aria-labelledby="helyszin" className="k-section-tight k-surface-raised">
       <div className="k-container grid gap-12 lg:grid-cols-12 lg:gap-16">
         <div className="flex flex-col lg:col-span-5">
           <SectionHeading id="helyszin" lines={['Gyere be,', 'nézz körül.']} size="lg" />

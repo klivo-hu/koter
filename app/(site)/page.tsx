@@ -5,6 +5,7 @@ import { GalleryPreview } from '@/components/sections/gallery-preview';
 import { Hero } from '@/components/sections/hero';
 import { LocationSection } from '@/components/sections/location-section';
 import { PricingPreview } from '@/components/sections/pricing-preview';
+import { SocialSection } from '@/components/sections/social-section';
 import { TrainersPreview } from '@/components/sections/trainers-preview';
 import { listGallery, listPricing, listTrainers, getSettings } from '@/lib/repositories';
 import { JsonLd } from '@/components/seo/json-ld';
@@ -45,6 +46,7 @@ export default function HomePage(): React.JSX.Element {
       <TrainersPreview trainers={trainers} />
       <GalleryPreview items={gallery} />
       <LocationSection settings={settings} />
+      <SocialSection settings={settings} />
     </>
   );
 }

@@ -11,7 +11,9 @@ import { ButtonLink } from '@/components/ui/button';
  * with priority and fetchPriority="high"; everything else in the hero is text,
  * and all of it enters with CSS from the first paint (see .k-intro in
  * globals.css), so nothing on the first screen waits for the JavaScript. On the
- * first load, .k-hero holds those entrances back until the intro curtain lifts.
+ * first load, .k-hero holds those entrances back until the intro curtain lifts,
+ * and on desktop .k-hero-content sits higher while the cookie notice is up, so
+ * the notice never covers the lead or the action.
  */
 export function Hero({ videoSrc }: { videoSrc: string }): React.JSX.Element {
   return (
@@ -42,7 +44,7 @@ export function Hero({ videoSrc }: { videoSrc: string }): React.JSX.Element {
         <div aria-hidden="true" className="absolute inset-0 bg-[var(--k-ink)] opacity-25" />
       </div>
 
-      <div className="k-container relative z-10 pb-16 pt-40 sm:pb-20 lg:pb-24">
+      <div className="k-hero-content k-container relative z-10 pb-16 pt-40 sm:pb-20 lg:pb-24">
         <HeroIntro />
 
         <div className="mt-10 flex flex-col gap-10 lg:mt-14 lg:flex-row lg:items-end lg:justify-between lg:gap-16">
