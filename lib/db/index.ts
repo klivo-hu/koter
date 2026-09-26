@@ -2,6 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import Database from 'better-sqlite3';
 import { DATABASE_PATH, UPLOAD_DIR } from '@/lib/env';
+import { migrate } from './migrations';
 import { SCHEMA_SQL } from './schema';
 import { seedDefaults } from './seed';
 
@@ -26,6 +27,7 @@ function connect(): Database.Database {
   database.pragma('busy_timeout = 5000');
   database.exec(SCHEMA_SQL);
   seedDefaults(database);
+  migrate(database);
   return database;
 }
 

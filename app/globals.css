@@ -273,7 +273,7 @@
 
   /*
    * Section surfaces: the gym's own materials behind the content — the turf
-   * strip and dark steel tread plate (drawn by scripts/build-textures.ts).
+   * strip and steel tread plate (both built by scripts/build-textures.ts).
    * They are referenced by relative path, so the build emits them with hashed
    * names and a year-long immutable cache instead of serving them from public/.
    *
@@ -320,11 +320,30 @@
       url('../assets/textures/turf.webp') center / 384px repeat;
   }
 
-  /* The plate is lit from the middle and falls into shadow towards the edges. */
+  /*
+   * The plate is lit from the middle and falls into shadow towards the edges.
+   * It is a photograph, so it is darkened hard: at 80% in the lit middle, muted
+   * body text still clears 5.2:1 over 99% of the plate (the rest is pin-point
+   * highlight on the lens tops, narrower than a stroke of text).
+   */
   .k-surface-metal::before {
     background:
-      radial-gradient(ellipse 80% 70% at 50% 40%, rgb(6 6 7 / 0.22), rgb(6 6 7 / 0.62)),
-      url('../assets/textures/metal.webp') center / 480px repeat;
+      radial-gradient(ellipse 80% 70% at 50% 40%, rgb(6 6 7 / 0.8), rgb(6 6 7 / 0.92)),
+      url('../assets/textures/metal.webp') center / 560px auto repeat;
+  }
+
+  /* The map's stand-in until the visitor agrees to Google's cookies: a faint street grid. */
+  .k-map-placeholder {
+    background-color: var(--k-ink-raised);
+    background-image:
+      linear-gradient(to top, var(--k-ink-raised) 15%, rgb(12 12 14 / 0.4) 70%, rgb(12 12 14 / 0.75)),
+      linear-gradient(var(--k-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--k-line) 1px, transparent 1px);
+    background-size:
+      100% 100%,
+      56px 56px,
+      56px 56px;
+    background-position: center;
   }
 }
 
@@ -372,12 +391,122 @@ html.k-motion-ready [data-reveal]:not(.k-revealed) {
 
 .k-intro .k-line-inner {
   animation: k-intro-line 1.15s cubic-bezier(0.215, 0.61, 0.355, 1) both;
-  animation-delay: calc(var(--k-intro-delay, 0s) + var(--k-line-index, 0) * 0.09s);
+  animation-delay: calc(var(--k-intro-offset, 0s) + var(--k-intro-delay, 0s) + var(--k-line-index, 0) * 0.09s);
 }
 
 .k-intro-rise {
   animation: k-intro-rise 0.62s cubic-bezier(0.215, 0.61, 0.355, 1) both;
-  animation-delay: var(--k-intro-delay, 0s);
+  animation-delay: calc(var(--k-intro-offset, 0s) + var(--k-intro-delay, 0s));
+}
+
+/*
+ * The intro curtain (components/site/intro-curtain.tsx): the mark on the site's
+ * ground for two seconds from the first paint, a red rule filling beneath it,
+ * then the whole panel lifts away. All CSS, so it runs the same with or without
+ * JavaScript and cannot stick. A tab that has already seen it gets
+ * .k-curtain-skip on <html> before the first paint and never draws it.
+ *
+ * While the curtain is in the document, the hero's entrances are pushed back by
+ * its length, so the headline rises as the curtain leaves rather than behind it.
+ */
+@keyframes k-curtain-lift {
+  to {
+    transform: translateY(-100%);
+    visibility: hidden;
+  }
+}
+
+@keyframes k-curtain-mark-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px) scale(0.96);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes k-curtain-mark-out {
+  to {
+    opacity: 0;
+    transform: translateY(-3rem);
+  }
+}
+
+@keyframes k-curtain-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+
+.k-curtain {
+  position: fixed;
+  inset: 0;
+  z-index: 120;
+  display: grid;
+  place-items: center;
+  background-color: var(--k-ink);
+  animation: k-curtain-lift 0.85s cubic-bezier(0.76, 0, 0.24, 1) 2s both;
+}
+
+.k-curtain-mark {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: clamp(1.75rem, 3vw, 2.5rem);
+  /* The exit only fills forwards, so it never masks the entrance during its delay. */
+  animation:
+    k-curtain-mark-in 0.9s cubic-bezier(0.215, 0.61, 0.355, 1) both,
+    k-curtain-mark-out 0.5s cubic-bezier(0.55, 0, 1, 0.45) 2s forwards;
+}
+
+.k-curtain-bar {
+  position: relative;
+  display: block;
+  width: clamp(7rem, 12vw, 10rem);
+  height: 2px;
+  overflow: hidden;
+  background-color: var(--k-line);
+}
+
+.k-curtain-bar::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: var(--k-red);
+  transform-origin: left center;
+  animation: k-curtain-fill 1.7s cubic-bezier(0.65, 0, 0.35, 1) 0.2s both;
+}
+
+html.k-curtain-skip .k-curtain {
+  display: none;
+}
+
+html:not(.k-curtain-skip):has(.k-curtain) {
+  --k-curtain-offset: 2.05s;
+}
+
+html:not(.k-curtain-skip):has(.k-curtain) .k-hero {
+  --k-intro-offset: var(--k-curtain-offset);
+}
+
+/*
+ * The cookie notice rises in once the first screen has settled — after the
+ * curtain, when there is one — rather than competing with the headline.
+ */
+.k-consent {
+  animation: k-intro-rise 0.62s cubic-bezier(0.215, 0.61, 0.355, 1) both;
+  animation-delay: calc(var(--k-curtain-offset, 0s) + 0.7s);
+}
+
+/* Reopened from the footer: the visitor asked for it, so it answers at once. */
+.k-consent[data-reviewing] {
+  animation-duration: 0.36s;
+  animation-delay: 0s;
 }
 
 /*
@@ -396,9 +525,13 @@ html.k-motion-ready [data-reveal]:not(.k-revealed) {
   margin-bottom: -0.1em;
 }
 
+/*
+ * No permanent will-change: every headline line on a page would otherwise hold
+ * its own compositor layer for good. The CSS entrance and GSAP's 3D transforms
+ * both promote a line only while it is actually moving.
+ */
 .k-line-inner {
   display: block;
-  will-change: transform;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -408,8 +541,14 @@ html.k-motion-ready [data-reveal]:not(.k-revealed) {
 
   /* No entrance at all: the delay alone would hide the text for a moment. */
   .k-intro .k-line-inner,
-  .k-intro-rise {
+  .k-intro-rise,
+  .k-consent {
     animation: none;
+  }
+
+  /* No curtain either: there is nothing to wait for without the entrance. */
+  .k-curtain {
+    display: none;
   }
 
   html.k-motion-ready [data-reveal]:not(.k-revealed) {

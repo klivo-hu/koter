@@ -28,7 +28,7 @@ export function PriceCard({
     >
       <div>
         <div className="flex items-baseline justify-between gap-4">
-          <h3 className="text-[var(--k-title)] font-semibold leading-tight text-[var(--k-bone)]">{item.name}</h3>
+          <h3 className="text-[length:var(--k-title)] font-semibold leading-tight text-[var(--k-bone)]">{item.name}</h3>
           <span
             aria-hidden="true"
             className="font-mono text-xs tabular-nums text-[var(--k-muted)] transition-colors duration-500 group-hover:text-[var(--k-red)]"

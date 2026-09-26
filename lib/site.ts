@@ -35,3 +35,18 @@ export function telHref(phone: string): string {
   return `tel:${phone.replace(/[^\d+]/g, '')}`;
 }
 
+/*
+ * Links to Google Maps. These are plain navigation to Google's own site, not an
+ * embed, so unlike the map frame they need no cookie consent.
+ */
+
+/** A place on Google Maps, found by name and address. */
+export function mapsSearchUrl(query: string): string {
+  return `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+}
+
+/** Route planning to a place, from wherever the visitor is. */
+export function mapsDirectionsUrl(destination: string): string {
+  return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(destination)}`;
+}
+

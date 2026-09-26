@@ -11,7 +11,9 @@
  *   • gallery      -> ./public/gallery/*.webp  (database-driven, so metadata and a
  *                                               blur placeholder are emitted next to
  *                                               them for the seeder)
- *   • logo         -> ./assets/koter-logo.png  (black background keyed out to alpha)
+ *   • logo         -> ./assets/koter-logo.png  (black background keyed out to alpha;
+ *                                               koter-logo-large.png at twice the size
+ *                                               for the intro curtain)
  *   • hero poster  -> ./public/hero-poster.jpg (the <video> poster; must be a real
  *                                               file, not a static import)
  *
@@ -155,10 +157,23 @@ ${records.join('\n')}
 /**
  * The supplied logo is white artwork on a solid black JPEG. Keying the black out
  * to alpha lets it sit on any surface without a visible box around it.
+ *
+ * Two sizes: the header and footer mark at the source's own resolution, and a
+ * large one for the intro curtain, where the mark is set several times bigger.
+ * The source is only 447px square, so the large one is resampled up (Lanczos)
+ * *before* keying — the key then produces clean edges, where a browser scaling
+ * the small file up would blur them.
  */
-async function buildLogo(): Promise<void> {
+async function buildLogoFile(scale: number, file: string): Promise<void> {
   const from = path.join(SRC, 'koterlogo.jpg');
-  const base = sharp(from).rotate().resize({ width: 640, withoutEnlargement: true });
+  const { width = 0 } = await sharp(from).metadata();
+  const base = sharp(from)
+    .rotate()
+    .resize(
+      scale === 1
+        ? { width: 640, withoutEnlargement: true }
+        : { width: Math.round(width * scale), kernel: 'lanczos3' },
+    );
   const { data, info } = await base.raw().toBuffer({ resolveWithObject: true });
 
   const channels = info.channels;
@@ -176,22 +191,42 @@ async function buildLogo(): Promise<void> {
     rgba[o + 3] = alpha;
   }
 
-  await sharp(rgba, { raw: { width: info.width, height: info.height, channels: 4 } })
+  const out = await sharp(rgba, { raw: { width: info.width, height: info.height, channels: 4 } })
     .trim({ threshold: 2 })
     .png({ compressionLevel: 9, palette: true })
-    .toFile(path.join(ASSETS, 'koter-logo.png'));
+    .toFile(path.join(ASSETS, file));
 
-  console.log('logo    assets/koter-logo.png (black keyed to alpha)');
+  console.log(`logo    assets/${file} ${out.width}×${out.height} (black keyed to alpha)`);
 }
 
+async function buildLogo(): Promise<void> {
+  await buildLogoFile(1, 'koter-logo.png');
+  await buildLogoFile(2, 'koter-logo-large.png');
+}
+
+const STEPS = { site: buildSiteImages, gallery: buildGallery, logo: buildLogo } as const;
+type Step = keyof typeof STEPS;
+
+const isStep = (name: string): name is Step => Object.hasOwn(STEPS, name);
+
+/**
+ * Every step by default. Name steps to run only those, e.g.
+ * `npm run assets:prepare -- logo` rebuilds the logos without re-encoding a photo.
+ */
 async function main(): Promise<void> {
+  const requested = process.argv.slice(2);
+  const unknown = requested.filter((name) => !isStep(name));
+  if (unknown.length > 0) {
+    throw new Error(`Unknown step: ${unknown.join(', ')}. Available: ${Object.keys(STEPS).join(', ')}.`);
+  }
+  const steps = requested.length === 0 ? (Object.keys(STEPS) as Step[]) : requested.filter(isStep);
+
   console.log('Preparing Kóter Gym assets…\n');
-  await buildSiteImages();
-  console.log('');
-  await buildGallery();
-  console.log('');
-  await buildLogo();
-  console.log('\nDone.');
+  for (const step of steps) {
+    await STEPS[step]();
+    console.log('');
+  }
+  console.log('Done.');
 }
 
 await main();

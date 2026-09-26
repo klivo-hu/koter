@@ -71,7 +71,9 @@ export function HeroVideo({ src }: { src: string }): React.JSX.Element | null {
       muted
       loop
       playsInline
-      preload="none"
+      // Only ever rendered once the checks above passed, so buffer eagerly: on
+      // the first load this runs under the intro curtain, which is its head start.
+      preload="auto"
       aria-hidden="true"
       tabIndex={-1}
       className="absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ease-out"

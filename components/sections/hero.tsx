@@ -10,11 +10,12 @@ import { ButtonLink } from '@/components/ui/button';
  * Full viewport, one photograph, one headline, one action. The still is loaded
  * with priority and fetchPriority="high"; everything else in the hero is text,
  * and all of it enters with CSS from the first paint (see .k-intro in
- * globals.css), so nothing on the first screen waits for the JavaScript.
+ * globals.css), so nothing on the first screen waits for the JavaScript. On the
+ * first load, .k-hero holds those entrances back until the intro curtain lifts.
  */
 export function Hero({ videoSrc }: { videoSrc: string }): React.JSX.Element {
   return (
-    <section className="relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-[var(--k-ink)]">
+    <section className="k-hero relative flex min-h-[100svh] flex-col justify-end overflow-hidden bg-[var(--k-ink)]">
       <div className="absolute inset-0">
         <Image
           src={heroImage}

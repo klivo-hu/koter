@@ -39,6 +39,7 @@ export function StaticImage({
   alt,
   sizes,
   ratio,
+  fill = false,
   className,
   imageClassName,
   priority = false,
@@ -48,13 +49,15 @@ export function StaticImage({
   alt: string;
   sizes: string;
   ratio?: string;
+  /** Take the full size of the parent box (e.g. a grid cell) instead of a fixed ratio. */
+  fill?: boolean;
   className?: string;
   imageClassName?: string;
   priority?: boolean;
   quality?: number;
 }): React.JSX.Element {
   return (
-    <Frame ratio={ratio} className={className}>
+    <Frame ratio={ratio} className={cn(fill && 'h-full', className)}>
       <Image
         src={src}
         alt={alt}
@@ -66,7 +69,7 @@ export function StaticImage({
         loading={priority ? 'eager' : 'lazy'}
         decoding={priority ? 'sync' : 'async'}
         className={cn('h-full w-full object-cover', imageClassName)}
-        {...(ratio === undefined ? {} : { fill: true })}
+        {...(ratio === undefined && !fill ? {} : { fill: true })}
       />
     </Frame>
   );

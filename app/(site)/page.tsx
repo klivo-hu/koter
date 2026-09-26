@@ -3,7 +3,7 @@ import { BrandIntro } from '@/components/sections/brand-intro';
 import { Experience } from '@/components/sections/experience';
 import { GalleryPreview } from '@/components/sections/gallery-preview';
 import { Hero } from '@/components/sections/hero';
-import { LocationTeaser } from '@/components/sections/location-teaser';
+import { LocationSection } from '@/components/sections/location-section';
 import { PricingPreview } from '@/components/sections/pricing-preview';
 import { TrainersPreview } from '@/components/sections/trainers-preview';
 import { listGallery, listPricing, listTrainers, getSettings } from '@/lib/repositories';
@@ -44,7 +44,7 @@ export default function HomePage(): React.JSX.Element {
       <PricingPreview items={pricing} />
       <TrainersPreview trainers={trainers} />
       <GalleryPreview items={gallery} />
-      <LocationTeaser settings={settings} />
+      <LocationSection settings={settings} />
     </>
   );
 }

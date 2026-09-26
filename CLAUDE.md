@@ -50,6 +50,11 @@ public site for a gym in Hatvan, plus a JWT-protected back office.
 - Prefer server components; client JavaScript must earn its place.
 - Legal documents are **drafts** and must be reviewed by a qualified legal
   professional before publication.
+- **No third-party embed loads without consent.** The Google map goes through
+  `MapSection`'s consent gate (`lib/consent.ts`); a new embed needs a consent
+  category, a `CONSENT_VERSION` bump and a line in the cookie policy.
+- Seed changes never reach a running site. Content that must, goes through a
+  numbered step in `lib/db/migrations.ts` that never overwrites admin edits.
 
 ## Design system
 
@@ -67,7 +72,8 @@ Defined once in `app/globals.css` as CSS custom properties, exposed to Tailwind 
 npm install
 npm run dev              # http://localhost:3000
 npm run verify           # typecheck + lint + production build
-npm run assets:prepare   # re-derive assets/ and public/gallery/ from source-assets/
+npm run assets:prepare   # re-derive assets/ and public/gallery/ from source-assets/ (`-- logo` for one step)
+npm run assets:textures  # re-derive the turf and tread-plate section textures
 npm run assets:icons     # re-derive the favicon set from the logo
 npm run admin:hash -- "password"   # value for ADMIN_PASSWORD_HASH
 ```

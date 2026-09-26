@@ -80,7 +80,9 @@ export const viewport: Viewport = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }): React.JSX.Element {
   return (
-    <html lang="hu" className={`${archivo.variable} ${inter.variable}`}>
+    // suppressHydrationWarning: the intro curtain's pre-paint script may add a
+    // class to <html> before React hydrates (see lib/intro-curtain.ts).
+    <html lang="hu" className={`${archivo.variable} ${inter.variable}`} suppressHydrationWarning>
       <body>{children}</body>
     </html>
   );

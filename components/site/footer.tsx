@@ -1,16 +1,21 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import logo from '@/assets/koter-logo.png';
+import { ConsentSettingsButton } from '@/components/consent/consent-settings-button';
 import { SocialLinks, socialLinksFrom } from '@/components/site/social-links';
 import { listLegalPages, getSettings } from '@/lib/repositories';
 import { NAV, SITE_NAME, telHref } from '@/lib/site';
+
+const legalLinkClass =
+  'text-sm text-[var(--k-muted)] underline-offset-4 transition-colors hover:text-[var(--k-bone)] hover:underline';
 
 /**
  * The footer. Quiet by design: the mark, the three columns, one hairline.
  *
  * The legal pages sit side by side on one row (wrapping on narrow screens) and
  * come from the database — adding one in the admin makes it appear here with no
- * code change.
+ * code change. The cookie settings close the row: withdrawing consent must stay
+ * one click away on every page.
  */
 export function Footer(): React.JSX.Element {
   const settings = getSettings();
@@ -76,22 +81,20 @@ export function Footer(): React.JSX.Element {
         <hr className="k-rule my-12 lg:my-16" />
 
         <div className="flex flex-col gap-10 md:flex-row md:items-end md:justify-between">
-          {legal.length > 0 && (
-            <nav aria-label="Jogi információk">
-              <ul className="flex flex-wrap gap-x-8 gap-y-3">
-                {legal.map((page) => (
-                  <li key={page.slug}>
-                    <Link
-                      href={`/jogi/${page.slug}`}
-                      className="text-sm text-[var(--k-muted)] underline-offset-4 transition-colors hover:text-[var(--k-bone)] hover:underline"
-                    >
-                      {page.title}
-                    </Link>
-                  </li>
-                ))}
-              </ul>
-            </nav>
-          )}
+          <nav aria-label="Jogi információk">
+            <ul className="flex flex-wrap gap-x-8 gap-y-3">
+              {legal.map((page) => (
+                <li key={page.slug}>
+                  <Link href={`/jogi/${page.slug}`} className={legalLinkClass}>
+                    {page.title}
+                  </Link>
+                </li>
+              ))}
+              <li>
+                <ConsentSettingsButton className={legalLinkClass} />
+              </li>
+            </ul>
+          </nav>
 
           <p className="text-sm text-[var(--k-muted)]">
             © {year} {SITE_NAME}

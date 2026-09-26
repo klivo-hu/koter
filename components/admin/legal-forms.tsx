@@ -10,8 +10,9 @@ import type { LegalPage } from '@/lib/types';
  * A legal document.
  *
  * The body is plain text with a small amount of Markdown — `## heading`,
- * `- list item`, `> note` — rendered into React elements rather than injected as
- * HTML, so nothing typed here can become markup on the public page.
+ * `- list item`, `> note`, `[text](https://…)` — rendered into React elements
+ * rather than injected as HTML, so nothing typed here can become markup on the
+ * public page.
  */
 export function LegalForm({ page }: { page?: LegalPage }): React.JSX.Element {
   const [state, action] = useActionState<ActionState, FormData>(saveLegalAction, {});
@@ -48,7 +49,7 @@ export function LegalForm({ page }: { page?: LegalPage }): React.JSX.Element {
         <Field
           label="Tartalom"
           name={`content-${key}`}
-          hint="Formázás: ## alcím, - felsorolás, > kiemelt megjegyzés. Üres sor választja el a bekezdéseket."
+          hint="Formázás: ## alcím, - felsorolás, > kiemelt megjegyzés, [szöveg](https://… vagy /jogi/…) hivatkozás. Üres sor választja el a bekezdéseket."
         >
           <Textarea
             name="content"

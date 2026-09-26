@@ -106,3 +106,71 @@ That re-encode is the security control: a polyglot file, an SVG carrying script,
 or an executable renamed `.jpg` does not survive it. EXIF — including GPS — is
 dropped in the same step. The declared MIME type is never trusted; the decoded
 format is what is checked.
+
+## 11. The Google map loads only after consent
+
+The embedded map is the one thing on the site that sends visitor data to a third
+party (Google sets its own cookies and receives the IP address), so under the
+GDPR and the ePrivacy rules it may only load after an explicit yes. The site sets
+no analytics or marketing cookies, so consent has exactly one category.
+
+The choice lives in a first-party cookie (`koter_consent`, 6 months), not in
+localStorage, because the server reads it: `app/(site)/layout.tsx` renders the
+banner and every map in their final state, so nothing flips after hydration.
+Until the visitor agrees, `MapSection` shows a placeholder in the same box that
+explains why, loads the map on request (that click is the consent) and links to
+Google Maps as a plain link, which needs none. Refusing is one click, the same
+size as accepting, and the footer's "Süti-beállítások" reopens the choice on
+every page. Changing the categories means bumping `CONSENT_VERSION` in
+`lib/consent.ts`, which asks everyone again.
+
+## 12. Content migrations, not seed edits, reach a running site
+
+The seed only fills empty tables, so editing it never reaches a database that
+already exists. `lib/db/migrations.ts` holds numbered steps tracked by SQLite's
+`user_version`; each runs once, in a transaction with its version bump. Steps
+must be harmless on a freshly seeded database and must never overwrite what an
+operator edited: migration 1 adds the cookie policy only if its slug is missing,
+and rewrites the privacy policy's cookie section only while that section is
+still word for word the seeded original. The legal copy itself lives in
+`lib/db/legal-content.ts`, shared by the seed and the migrations.
+
+## 13. The intro curtain is timed by CSS, not by JavaScript
+
+The home page opens behind a two-second curtain with the mark, so the hero
+photograph, the hero clip and the first pictures below the fold are already
+arriving when it lifts. The timing is a CSS animation counted from the first
+paint: it behaves the same with or without JavaScript and can never stick. The
+hero's own CSS entrances are offset by the same amount while the curtain is in
+the document, so the headline rises as it leaves. JavaScript only does what CSS
+cannot — remembers per tab that it has played (a pre-paint inline script then
+keeps CSS from drawing it again), holds scrolling while it is down, and removes
+it afterwards. It never shows on a deep link to another page, and never under
+reduced motion.
+
+## 14. Pictures load a screen and a half ahead, in every browser
+
+Native lazy loading decides for itself how far ahead to fetch (Chrome
+1250–2500px, Firefox and Safari far less), so a quick scroll outran it and a
+picture arrived as its reveal played. `ImageWarmup` now watches every lazy
+picture (and the map frame) from hydration and switches it to eager 1.5 screens
+before it reaches the viewport, then, once the page is idle, loads the rest of
+the page and warms the other pages' pictures into the cache.
+
+**Known, not yet addressed:** the Next.js image optimiser encodes each size on
+its first request and keeps the result in `.next/cache/images`, which lives in
+the container and is emptied by every redeploy. The first visitors after a
+deploy therefore wait for encodes (measured ≈0.18s per AVIF at 1280w on a fast
+desktop; several times that on a small VPS, and a page's worth run at once).
+Moving that cache onto the data volume would keep it across deploys; it needs a
+Dockerfile change that should be tested on the platform first.
+
+## 15. The tread-plate texture is a derived photograph
+
+`assets/textures/metal.webp` is derived from `source-assets/metal-plate.jpg`, a
+photoreal render generated with Higgsfield (Seedream 5.0 Flash) because no usable
+close-up of the gym's own floor exists. `npm run assets:textures` measures the
+lens lattice, cuts a window of whole periods, flattens the lighting and
+cross-fades each edge with a half-window-shifted copy, so the tile repeats with no
+seam. Being a photograph, it is darkened harder in CSS than the old drawn plate
+was, to keep muted text above AA contrast.

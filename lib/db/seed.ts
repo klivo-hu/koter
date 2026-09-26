@@ -1,5 +1,6 @@
 import type BetterSqlite3 from 'better-sqlite3';
 import { SEED_GALLERY } from '@/lib/generated/seed-media';
+import { LEGAL_PAGES } from './legal-content';
 
 /**
  * Default content, written once into an empty database.
@@ -49,101 +50,6 @@ const AWARDS: ReadonlyArray<[string, string, string]> = [
   ['Projekt díjazottja — arany', '2023', ''],
   ['Projekt díjazottja — arany', '2022', ''],
   ['Projekt díjazottja — ezüst', '2021', ''],
-];
-
-const LEGAL_DRAFT_NOTICE =
-  '> **PIROS VONAL — JOGI ELLENŐRZÉS SZÜKSÉGES.** Ez a szöveg kiindulási vázlat, nem jogi tanácsadás. ' +
-  'Publikálás előtt egészítsd ki az üzemeltető valós adataival, és nézesd át jogi szakértővel. ' +
-  'A tartalom az admin felületen szerkeszthető.\n';
-
-const LEGAL_PAGES: ReadonlyArray<[string, string, string, number]> = [
-  [
-    'adatkezelesi-tajekoztato',
-    'Adatkezelési tájékoztató',
-    `${LEGAL_DRAFT_NOTICE}
-## 1. Az adatkezelő
-
-Üzemeltető: [Cégnév]
-Székhely: [Székhely]
-E-mail: [E-mail cím]
-Telefon: [Telefonszám]
-Nyilvántartási szám: [Nyilvántartási szám]
-
-## 2. A kezelt adatok köre
-
-A weboldal használatához nem szükséges regisztráció. Személyes adatot akkor kezelünk, ha te magad adod meg (például e-mailben vagy telefonon felveszed velünk a kapcsolatot).
-
-## 3. Az adatkezelés célja és jogalapja
-
-A megadott adatokat kizárólag a megkeresésed megválaszolására, illetve a tagsági jogviszony kezelésére használjuk. Az adatkezelés jogalapja a GDPR 6. cikk (1) bekezdés a) pont szerinti hozzájárulás, illetve b) pont szerinti szerződés teljesítése.
-
-## 4. Adatmegőrzés
-
-Az adatokat csak a cél eléréséhez szükséges ideig, illetve a jogszabályban előírt megőrzési időig tároljuk.
-
-## 5. Az érintett jogai
-
-Kérheted személyes adataid hozzáférését, helyesbítését, törlését, az adatkezelés korlátozását, valamint élhetsz az adathordozhatósághoz való joggal. Panasszal a Nemzeti Adatvédelmi és Információszabadság Hatósághoz (NAIH) fordulhatsz.
-
-## 6. Sütik
-
-A weboldal a működéséhez feltétlenül szükséges sütiket használ. Az admin felületre való bejelentkezés egy munkamenet-sütit állít be, amely kijelentkezéskor vagy lejáratkor törlődik.
-`,
-    10,
-  ],
-  [
-    'aszf',
-    'Általános szerződési feltételek',
-    `${LEGAL_DRAFT_NOTICE}
-## 1. A szolgáltató
-
-Üzemeltető: [Cégnév]
-Székhely: [Székhely]
-Adószám: [Adószám]
-
-## 2. A szolgáltatás tárgya
-
-Az üzemeltető edzőtermi szolgáltatást nyújt bérlet, illetve napijegy ellenében, a mindenkor érvényes árlista szerint.
-
-## 3. Bérletek és jegyek
-
-A bérletek a megváltás napjától a megjelölt időtartamra érvényesek, másra át nem ruházhatók. A napijegy egyszeri belépésre jogosít.
-
-## 4. Házirend
-
-A terem használata a kifüggesztett házirend elfogadásával történik. Az edzés saját felelősségre végezhető.
-
-## 5. Felelősség
-
-Az üzemeltető felelősségére a Polgári Törvénykönyv rendelkezései az irányadók.
-
-## 6. Panaszkezelés
-
-Panasszal az üzemeltetőhöz, illetve a területileg illetékes békéltető testülethez fordulhatsz.
-`,
-    20,
-  ],
-  [
-    'impresszum',
-    'Impresszum',
-    `${LEGAL_DRAFT_NOTICE}
-## Az üzemeltető adatai
-
-Név: [Cégnév]
-Székhely: [Székhely]
-Adószám: [Adószám]
-Nyilvántartási szám: [Nyilvántartási szám]
-E-mail: [E-mail cím]
-Telefon: [Telefonszám]
-
-## Tárhelyszolgáltató
-
-Név: [Tárhelyszolgáltató neve]
-Székhely: [Tárhelyszolgáltató székhelye]
-E-mail: [Tárhelyszolgáltató e-mail címe]
-`,
-    30,
-  ],
 ];
 
 /** Editable site-wide values. Blank means "not verified yet" — the UI hides it. */
@@ -209,8 +115,8 @@ export function seedDefaults(database: BetterSqlite3.Database): void {
       const insert = database.prepare(
         `INSERT INTO legal_pages (slug, title, content, sort_order, active) VALUES (?, ?, ?, ?, 1)`,
       );
-      for (const [slug, title, content, order] of LEGAL_PAGES) {
-        insert.run(slug, title, content, order);
+      for (const page of LEGAL_PAGES) {
+        insert.run(page.slug, page.title, page.content, page.sortOrder);
       }
     }
 
