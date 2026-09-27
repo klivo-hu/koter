@@ -13,10 +13,11 @@ import { NAV, SITE_NAME } from '@/lib/site';
 /**
  * The site header.
  *
- * Transparent over the hero, and once the page scrolls past it, a solid dark bar
- * that shades softly into the page beneath — a shadow, not a hairline, so it
- * never cuts across the sections' flow. That is the only thing it reacts to — no
- * hide-on-scroll, no shrinking, no animated logo.
+ * Transparent at the top of the page; once the page moves, an opaque bar in the
+ * page's own ground that fades into the content beneath it (.k-header in
+ * globals.css). No translucency and no backdrop blur — content never smears
+ * through it, and there is no blur to recompute on every scrolled frame. That is
+ * the only thing it reacts to — no hide-on-scroll, no shrinking, no animated logo.
  *
  * On small screens the navigation becomes a full-screen panel: focus is trapped
  * inside it while open, Escape closes it, and the page behind it cannot scroll.
@@ -127,12 +128,8 @@ export function Header(): React.JSX.Element {
   return (
     <>
       <header
-        className={cn(
-          'fixed inset-x-0 top-0 z-[80] transition-[background-color,box-shadow] duration-300 ease-out',
-          scrolled || open
-            ? 'bg-[rgba(6,6,7,0.92)] shadow-[0_18px_36px_-24px_rgb(0_0_0/0.9)] backdrop-blur-md'
-            : 'bg-transparent',
-        )}
+        data-solid={scrolled || open ? 'true' : 'false'}
+        className="k-header fixed inset-x-0 top-0 z-[80]"
         style={{ height: 'var(--k-header-h)' }}
       >
         <div className="k-container flex h-full items-center justify-between gap-6">

@@ -105,7 +105,15 @@
     font-synthesis-weight: none;
     text-rendering: optimizeLegibility;
     -webkit-font-smoothing: antialiased;
-    /* No horizontal overflow on any viewport. */
+    /*
+     * No horizontal scrollbar on any viewport. On its own this is not enough on
+     * phones: a body's overflow is handed to the viewport, and mobile browsers
+     * still widen the layout viewport to fit wider content — and every fixed
+     * element (header, curtain, cookie notice, menu) is sized to that layout
+     * viewport, so they spill past the screen edge. The site layout therefore
+     * also clips <main> and the footer, where the overflow never reaches the
+     * viewport at all.
+     */
     overflow-x: clip;
   }
 
@@ -239,6 +247,37 @@
     color: var(--k-muted);
     font-weight: 600;
     font-variant-numeric: tabular-nums;
+  }
+
+  /*
+   * The site header (components/site/header.tsx). Transparent at the top of the
+   * page; once it moves, an opaque bar of the page's own ground, with a short
+   * gradient below it so content scrolling underneath fades out rather than
+   * meeting a hard edge. No translucency, no blur, no hairline.
+   */
+  .k-header {
+    background-color: transparent;
+    transition: background-color var(--k-normal) var(--k-ease);
+  }
+
+  .k-header::after {
+    content: '';
+    position: absolute;
+    inset-inline: 0;
+    top: 100%;
+    height: clamp(1.25rem, 3vw, 2.25rem);
+    background: linear-gradient(to bottom, var(--k-ink), rgb(6 6 7 / 0));
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--k-normal) var(--k-ease);
+  }
+
+  .k-header[data-solid='true'] {
+    background-color: var(--k-ink);
+  }
+
+  .k-header[data-solid='true']::after {
+    opacity: 1;
   }
 
   /*

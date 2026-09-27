@@ -54,5 +54,25 @@ export function adminCredentials(): { email: string; passwordHash: string } {
 /** Session lifetime in seconds (default 8 hours). */
 export const SESSION_TTL_SECONDS = Number.parseInt(optional('SESSION_TTL_SECONDS', '28800'), 10);
 
-/** Largest accepted upload in bytes (default 8 MB). */
-export const MAX_UPLOAD_BYTES = Number.parseInt(optional('MAX_UPLOAD_BYTES', '8388608'), 10);
+/**
+ * The largest request body a Server Action accepts. Must equal
+ * `experimental.serverActions.bodySizeLimit` in next.config.mjs: uploads travel
+ * inside a Server Action, and a body over the limit fails the whole request
+ * before the action — and its friendly validation — ever runs.
+ */
+export const SERVER_ACTION_BODY_LIMIT_BYTES = 10 * 1024 * 1024;
+
+/** Room left in that body for the form's other fields and the multipart framing. */
+const UPLOAD_HEADROOM_BYTES = 256 * 1024;
+
+const DEFAULT_MAX_UPLOAD_BYTES = 8 * 1024 * 1024;
+
+/**
+ * Largest accepted image upload in bytes: 8 MB by default, and never more than
+ * fits in a Server Action body, whatever the environment asks for.
+ */
+export const MAX_UPLOAD_BYTES = ((): number => {
+  const requested = Number.parseInt(optional('MAX_UPLOAD_BYTES', String(DEFAULT_MAX_UPLOAD_BYTES)), 10);
+  const ceiling = SERVER_ACTION_BODY_LIMIT_BYTES - UPLOAD_HEADROOM_BYTES;
+  return Number.isFinite(requested) && requested > 0 ? Math.min(requested, ceiling) : DEFAULT_MAX_UPLOAD_BYTES;
+})();

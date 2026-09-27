@@ -87,7 +87,7 @@ export default function AboutPage(): React.JSX.Element {
           </div>
 
           <div className="mt-12 grid gap-4 sm:aspect-[7/3] sm:grid-cols-12 sm:gap-5 lg:mt-16 lg:gap-6">
-            <div className="sm:col-span-8" data-reveal="mask">
+            <div className="sm:col-span-8" data-reveal="media">
               <StaticImage
                 src={teamMain}
                 alt="A Kóter Gym versenycsapata a klub zászlajával, érmekkel és kupákkal a teremben"
@@ -96,7 +96,7 @@ export default function AboutPage(): React.JSX.Element {
                 sizes="(min-width: 1440px) 900px, (min-width: 640px) 64vw, 92vw"
               />
             </div>
-            <div className="sm:col-span-4" data-reveal="mask" data-reveal-delay="0.12">
+            <div className="sm:col-span-4" data-reveal="media">
               <StaticImage
                 src={teamSecond}
                 alt="A Kóter Gym csapata érmekkel és oklevelekkel egy verseny után"
@@ -121,7 +121,7 @@ export default function AboutPage(): React.JSX.Element {
               <SectionHeading lines={['Díjak és', 'elismerések.']} size="lg" />
               {awardsIntro !== '' && <p className="k-body-muted mt-8 text-sm">{awardsIntro}</p>}
             </div>
-            <div className="lg:col-span-6 lg:col-start-7" data-reveal="mask">
+            <div className="lg:col-span-6 lg:col-start-7" data-reveal="media">
               <StaticImage
                 src={awardImage}
                 alt="A Kóter Gym vezetője oklevelet vesz át egy hatvani díjátadón"

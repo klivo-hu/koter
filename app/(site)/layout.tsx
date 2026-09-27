@@ -40,7 +40,10 @@ export default async function SiteLayout({ children }: { children: React.ReactNo
       <PageTransition />
       <ImageWarmup />
       <Header />
-      <main id="fotartalom">{children}</main>
+      {/* overflow-x: clip here, not only on <body>: see the note on body in globals.css. */}
+      <main id="fotartalom" className="overflow-x-clip">
+        {children}
+      </main>
       <Footer />
       <CookieBanner />
     </ConsentProvider>

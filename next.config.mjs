@@ -36,6 +36,11 @@ const nextConfig = {
     // instead of as a render-blocking request: one round trip less before the
     // first paint, which is most of the cost on a mobile connection.
     inlineCss: true,
+    // The admin's image uploads are Server Actions, which accept 1 MB bodies by
+    // default — less than a typical phone photo, so every such upload failed
+    // with a server error. Must equal SERVER_ACTION_BODY_LIMIT_BYTES in
+    // lib/env.ts, which keeps MAX_UPLOAD_BYTES (8 MB by default) under it.
+    serverActions: { bodySizeLimit: '10mb' },
   },
 
   eslint: {

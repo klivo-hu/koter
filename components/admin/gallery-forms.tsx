@@ -3,12 +3,19 @@
 import { useActionState } from 'react';
 import Image from 'next/image';
 import { ConfirmButton } from '@/components/admin/confirm-button';
-import { Checkbox, Field, FormMessage, Input, Panel, Submit } from '@/components/admin/ui';
+import { Checkbox, Field, FormMessage, ImageInput, Input, Panel, Submit, megabytes } from '@/components/admin/ui';
 import { archiveGalleryAction, saveGalleryAction, type ActionState } from '@/lib/actions/content';
 import type { GalleryView } from '@/lib/types';
 
 /** Adds or edits one gallery photograph. */
-export function GalleryForm({ item }: { item?: GalleryView }): React.JSX.Element {
+export function GalleryForm({
+  item,
+  maxUploadBytes,
+}: {
+  item?: GalleryView;
+  /** MAX_UPLOAD_BYTES, handed down from the server page. */
+  maxUploadBytes: number;
+}): React.JSX.Element {
   const [state, action] = useActionState<ActionState, FormData>(saveGalleryAction, {});
   const editing = item !== undefined;
   const key = item?.id ?? 'new';
@@ -34,16 +41,9 @@ export function GalleryForm({ item }: { item?: GalleryView }): React.JSX.Element
           <Field
             label={editing ? 'Kép cseréje' : 'Kép'}
             name={`image-${key}`}
-            hint="JPEG, PNG, WebP vagy AVIF, legfeljebb 8 MB. Automatikusan WebP formátumra alakul és legfeljebb 2400 képpontra méreteződik."
+            hint={`JPEG, PNG, WebP vagy AVIF, legfeljebb ${megabytes(maxUploadBytes)}. Automatikusan WebP formátumra alakul és legfeljebb 2400 képpontra méreteződik.`}
           >
-            <Input
-              name="image"
-              id={`image-${key}`}
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/avif"
-              required={!editing}
-              className="file:mr-4 file:border-0 file:bg-[var(--k-ink-card)] file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.14em] file:text-[var(--k-bone)]"
-            />
+            <ImageInput name="image" id={`image-${key}`} maxBytes={maxUploadBytes} required={!editing} />
           </Field>
         </div>
 

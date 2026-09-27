@@ -86,7 +86,7 @@ export function Experience(): React.JSX.Element {
               <li key={offer.title} className="group grid items-center gap-8 sm:gap-10 lg:grid-cols-12 lg:gap-x-16">
                 <div
                   className={cn('lg:col-span-6 lg:row-start-1', flipped ? 'lg:col-start-7' : 'lg:col-start-1')}
-                  data-reveal="mask"
+                  data-reveal="media"
                 >
                   <StaticImage
                     src={offer.image}

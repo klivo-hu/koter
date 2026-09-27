@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import { DUR, EASE, SHIFT, STAGGER } from '@/lib/motion';
+import { DUR, EASE, EASE_SETTLE, MEDIA_REVEAL, SHIFT, STAGGER } from '@/lib/motion';
 
 /**
  * The single motion controller for the whole site.
@@ -23,6 +23,12 @@ import { DUR, EASE, SHIFT, STAGGER } from '@/lib/motion';
  * this script arrived. The first screen's own entrances are CSS (.k-intro).
  * After a client-side navigation the new page mounts under the already-hidden
  * state, so there everything animates as before.
+ *
+ * Kinds: `lines` (a headline, line by line), `group` (each child in turn), `up`
+ * and `fade` (one element), and `media` — photographs and the map, which fade in
+ * and settle into place (see MEDIA_REVEAL). Media is revealed in batches, so
+ * pictures that scroll into view together follow each other instead of popping
+ * in as one block.
  */
 
 let firstLoad = true;
@@ -37,13 +43,13 @@ function keepOnScreenContent(): void {
   }
 }
 
-type RevealKind = 'up' | 'fade' | 'mask' | 'lines' | 'group';
+type RevealKind = 'up' | 'fade' | 'media' | 'lines' | 'group';
 
 function revealKind(element: Element): RevealKind {
   const value = element.getAttribute('data-reveal');
   switch (value) {
     case 'fade':
-    case 'mask':
+    case 'media':
     case 'lines':
     case 'group':
       return value;
@@ -86,8 +92,15 @@ export function MotionRoot(): null {
           return;
         }
 
+        const pictures: HTMLElement[] = [];
+
         for (const element of targets) {
           const kind = revealKind(element);
+          if (kind === 'media') {
+            pictures.push(element);
+            continue;
+          }
+
           const delay = Number.parseFloat(element.getAttribute('data-reveal-delay') ?? '0');
           const trigger = { scrollTrigger: { trigger: element, start: 'top 88%', once: true } };
 
@@ -127,20 +140,6 @@ export function MotionRoot(): null {
             continue;
           }
 
-          if (kind === 'mask') {
-            gsap.set(element, { opacity: 1, clipPath: 'inset(0% 0% 100% 0%)' });
-            gsap.to(element, {
-              clipPath: 'inset(0% 0% 0% 0%)',
-              duration: DUR.slow,
-              ease: EASE,
-              delay,
-              ...trigger,
-              onStart: play,
-              onComplete: () => gsap.set(element, { clearProps: 'clipPath' }),
-            });
-            continue;
-          }
-
           gsap.fromTo(
             element,
             { opacity: 0, y: kind === 'fade' ? 0 : SHIFT },
@@ -155,6 +154,34 @@ export function MotionRoot(): null {
               onComplete: () => gsap.set(element, { clearProps: 'transform' }),
             },
           );
+        }
+
+        if (pictures.length > 0) {
+          gsap.set(pictures, { opacity: 0, y: MEDIA_REVEAL.y, scale: MEDIA_REVEAL.scale });
+          ScrollTrigger.batch(pictures, {
+            start: 'top 92%',
+            once: true,
+            onEnter: (batch) => {
+              const entering = batch as HTMLElement[];
+              for (const element of entering) {
+                element.classList.add('k-revealed');
+              }
+              gsap.to(entering, {
+                opacity: 1,
+                duration: MEDIA_REVEAL.fade,
+                ease: 'power2.out',
+                stagger: MEDIA_REVEAL.stagger,
+              });
+              gsap.to(entering, {
+                y: 0,
+                scale: 1,
+                duration: MEDIA_REVEAL.settle,
+                ease: EASE_SETTLE,
+                stagger: MEDIA_REVEAL.stagger,
+                onComplete: () => gsap.set(entering, { clearProps: 'opacity,transform' }),
+              });
+            },
+          });
         }
 
         ScrollTrigger.refresh();

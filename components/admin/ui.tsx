@@ -46,6 +46,57 @@ export function Input(props: React.InputHTMLAttributes<HTMLInputElement>): React
   return <input {...props} id={props.id ?? props.name} className={cn(control, props.className)} />;
 }
 
+/** The image types the upload fields offer. lib/uploads.ts decodes and checks every file again. */
+const IMAGE_TYPES: readonly string[] = ['image/jpeg', 'image/png', 'image/webp', 'image/avif'];
+
+/** A byte count the way the admin's hints state it: "8 MB", "9,7 MB". */
+export function megabytes(bytes: number): string {
+  return `${(bytes / (1024 * 1024)).toLocaleString('hu-HU', { maximumFractionDigits: 1 })} MB`;
+}
+
+/**
+ * An image upload field that checks the choice in the browser first.
+ *
+ * A file of the wrong type or over `maxBytes` is flagged through the field's own
+ * validity, so the form will not submit and the browser says why right at the
+ * field — the photo is never sent. This is a convenience, not the check that
+ * counts: the server validates every upload again (lib/uploads.ts).
+ */
+export function ImageInput({
+  maxBytes,
+  ...props
+}: { maxBytes: number } & Omit<React.InputHTMLAttributes<HTMLInputElement>, 'type' | 'accept' | 'onChange'>): React.JSX.Element {
+  const check = (event: React.ChangeEvent<HTMLInputElement>): void => {
+    const input = event.currentTarget;
+    const file = input.files?.[0];
+    let problem = '';
+    if (file !== undefined && !IMAGE_TYPES.includes(file.type)) {
+      problem = 'Csak JPEG, PNG, WebP vagy AVIF kép tölthető fel.';
+    } else if (file !== undefined && file.size > maxBytes) {
+      problem = `A kép túl nagy (${megabytes(file.size)}). Legfeljebb ${megabytes(maxBytes)} lehet.`;
+    }
+    input.setCustomValidity(problem);
+    if (problem !== '') {
+      input.reportValidity();
+    }
+  };
+
+  return (
+    <input
+      {...props}
+      type="file"
+      accept={IMAGE_TYPES.join(',')}
+      onChange={check}
+      id={props.id ?? props.name}
+      className={cn(
+        control,
+        'file:mr-4 file:border-0 file:bg-[var(--k-ink-card)] file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.14em] file:text-[var(--k-bone)]',
+        props.className,
+      )}
+    />
+  );
+}
+
 export function Textarea(props: React.TextareaHTMLAttributes<HTMLTextAreaElement>): React.JSX.Element {
   return (
     <textarea

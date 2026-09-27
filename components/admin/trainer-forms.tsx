@@ -3,7 +3,7 @@
 import { useActionState } from 'react';
 import Image from 'next/image';
 import { ConfirmButton } from '@/components/admin/confirm-button';
-import { Checkbox, Field, FormMessage, Input, Panel, Submit, Textarea } from '@/components/admin/ui';
+import { Checkbox, Field, FormMessage, ImageInput, Input, Panel, Submit, Textarea, megabytes } from '@/components/admin/ui';
 import { archiveTrainerAction, saveTrainerAction, type ActionState } from '@/lib/actions/content';
 import type { TrainerView } from '@/lib/types';
 
@@ -14,7 +14,14 @@ import type { TrainerView } from '@/lib/types';
  * supply its own. Until one is uploaded the public card shows a monogram plate,
  * so an empty field is a valid state rather than a broken image.
  */
-export function TrainerForm({ trainer }: { trainer?: TrainerView }): React.JSX.Element {
+export function TrainerForm({
+  trainer,
+  maxUploadBytes,
+}: {
+  trainer?: TrainerView;
+  /** MAX_UPLOAD_BYTES, handed down from the server page. */
+  maxUploadBytes: number;
+}): React.JSX.Element {
   const [state, action] = useActionState<ActionState, FormData>(saveTrainerAction, {});
   const editing = trainer !== undefined;
   const key = trainer?.id ?? 'new';
@@ -71,15 +78,9 @@ export function TrainerForm({ trainer }: { trainer?: TrainerView }): React.JSX.E
           <Field
             label={trainer?.media == null ? 'Profilkép' : 'Profilkép cseréje'}
             name={`image-${key}`}
-            hint="JPEG, PNG, WebP vagy AVIF. Legalább 200×200 képpont, legfeljebb 8 MB. A feltöltött kép automatikusan WebP formátumra alakul."
+            hint={`JPEG, PNG, WebP vagy AVIF. Legalább 200×200 képpont, legfeljebb ${megabytes(maxUploadBytes)}. A feltöltött kép automatikusan WebP formátumra alakul.`}
           >
-            <Input
-              name="image"
-              id={`image-${key}`}
-              type="file"
-              accept="image/jpeg,image/png,image/webp,image/avif"
-              className="file:mr-4 file:border-0 file:bg-[var(--k-ink-card)] file:px-4 file:py-2 file:text-xs file:font-semibold file:uppercase file:tracking-[0.14em] file:text-[var(--k-bone)]"
-            />
+            <ImageInput name="image" id={`image-${key}`} maxBytes={maxUploadBytes} />
           </Field>
         </div>
 

@@ -174,3 +174,33 @@ lens lattice, cuts a window of whole periods, flattens the lighting and
 cross-fades each edge with a half-window-shifted copy, so the tile repeats with no
 seam. Being a photograph, it is darkened harder in CSS than the old drawn plate
 was, to keep muted text above AA contrast.
+
+## 16. Uploads fit inside a Server Action body
+
+Admin uploads are Server Actions, and Next.js caps a Server Action's request
+body at 1 MB by default — smaller than a typical phone photo, so those uploads
+failed with a generic server error before the action (and its friendly
+validation) ever ran. `next.config.mjs` raises the limit to 10 MB, and
+`lib/env.ts` clamps `MAX_UPLOAD_BYTES` to fit under it whatever the environment
+says; the two constants must move together. The admin's `ImageInput` also checks
+type and size in the browser, so an oversized file is refused at the field
+before anything is sent. The server still validates every upload.
+
+## 17. Nothing may widen the phone viewport
+
+`overflow-x: clip` on `<body>` hides a horizontal scrollbar, but mobile browsers
+still grow the *layout* viewport to fit wider content — and every fixed element
+(header, intro curtain, cookie notice, menu) is sized to the layout viewport, so
+they spill off the screen and lose their centre. The site layout therefore also
+clips `<main>` and the footer, where overflow never reaches the viewport. The
+original offender is worth remembering: a box with `aspect-ratio` *and*
+`min-height` carries the minimum across the ratio into a minimum width. Size a
+box by one or the other, never both.
+
+## 18. Photographs settle in; they are not wiped in
+
+Pictures and the map used to reveal with an animated `clip-path` wipe, which
+read as a harsh downward swipe and repaints on every frame. They now fade in and
+settle from slightly below and slightly small (`MEDIA_REVEAL` in `lib/motion.ts`)
+— opacity and transform only, which the browser composites — and pictures that
+enter together are staggered through `ScrollTrigger.batch`.

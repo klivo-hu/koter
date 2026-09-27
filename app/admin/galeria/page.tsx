@@ -1,6 +1,7 @@
 import { AdminPage, AdminPageHead } from '@/components/admin/page-head';
 import { GalleryForm } from '@/components/admin/gallery-forms';
 import { requireAdminPage } from '@/lib/auth/guard';
+import { MAX_UPLOAD_BYTES } from '@/lib/env';
 import { listGalleryAdmin } from '@/lib/repositories';
 
 export const dynamic = 'force-dynamic';
@@ -17,9 +18,9 @@ export default async function AdminGalleryPage(): Promise<React.JSX.Element> {
       />
 
       <div className="flex flex-col gap-8">
-        <GalleryForm />
+        <GalleryForm maxUploadBytes={MAX_UPLOAD_BYTES} />
         {items.map((item) => (
-          <GalleryForm key={item.id} item={item} />
+          <GalleryForm key={item.id} item={item} maxUploadBytes={MAX_UPLOAD_BYTES} />
         ))}
       </div>
     </AdminPage>

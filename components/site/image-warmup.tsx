@@ -15,8 +15,8 @@ import { NAV } from '@/lib/site';
  *    request — arrives late. So each lazy picture, and the map frame, switches
  *    to eager once it is within a screen and a half below the viewport (or one
  *    above, scrolling back up), the same distance in every browser. It is
- *    watched through the box around its reveal wrapper, which is never clipped
- *    or moved by the reveal itself, so the animation cannot affect when it fires.
+ *    watched through the box around its reveal wrapper, which the reveal itself
+ *    never moves or fades, so the animation cannot affect when it fires.
  *
  * 2. The rest of this page — once it has loaded and the browser is idle, every
  *    remaining lazy picture goes eager. They were lazy only so the first screen
@@ -54,7 +54,7 @@ function constrained(): boolean {
 function lookahead(): () => void {
   const watched = new Map<Element, LazyMedia[]>();
   for (const media of document.querySelectorAll<LazyMedia>(LAZY)) {
-    // The reveal wrapper may be clipped; the box around it never is.
+    // The reveal wrapper is offset while it animates; the box around it stays put.
     const box = media.closest('[data-reveal]')?.parentElement ?? media;
     watched.set(box, [...(watched.get(box) ?? []), media]);
   }

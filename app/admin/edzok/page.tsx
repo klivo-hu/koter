@@ -1,6 +1,7 @@
 import { AdminPage, AdminPageHead } from '@/components/admin/page-head';
 import { TrainerForm } from '@/components/admin/trainer-forms';
 import { requireAdminPage } from '@/lib/auth/guard';
+import { MAX_UPLOAD_BYTES } from '@/lib/env';
 import { listTrainersAdmin } from '@/lib/repositories';
 
 export const dynamic = 'force-dynamic';
@@ -17,9 +18,9 @@ export default async function AdminTrainersPage(): Promise<React.JSX.Element> {
       />
 
       <div className="flex flex-col gap-8">
-        <TrainerForm />
+        <TrainerForm maxUploadBytes={MAX_UPLOAD_BYTES} />
         {trainers.map((trainer) => (
-          <TrainerForm key={trainer.id} trainer={trainer} />
+          <TrainerForm key={trainer.id} trainer={trainer} maxUploadBytes={MAX_UPLOAD_BYTES} />
         ))}
       </div>
     </AdminPage>

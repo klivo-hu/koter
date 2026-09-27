@@ -77,11 +77,15 @@ export function LocationSection({ settings }: { settings: SiteSettings }): React
         </div>
 
         {mapUrl !== '' && (
-          <div className="lg:col-span-7" data-reveal="mask">
+          <div className="lg:col-span-7" data-reveal="media">
+            {/* A fixed height on phones, a ratio from sm up, the column's height on
+                desktop. Never a ratio together with a min-height: CSS carries the
+                minimum across the ratio into a minimum width, which pushed the box
+                past the screen edge and widened the whole mobile viewport. */}
             <MapSection
               embedUrl={mapUrl}
               address={address}
-              className="aspect-[4/3] min-h-[20rem] sm:aspect-[16/10] lg:aspect-auto lg:h-full lg:min-h-[26rem]"
+              className="h-80 sm:aspect-[16/10] sm:h-auto lg:aspect-auto lg:h-full lg:min-h-[26rem]"
             />
           </div>
         )}

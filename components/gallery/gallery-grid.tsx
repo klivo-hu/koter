@@ -150,7 +150,7 @@ export function GalleryGrid({
               key={item.id}
               className={cn('group relative', tileClasses(index, items.length, flush))}
             >
-              <figure className="h-full" data-reveal="mask">
+              <figure className="h-full" data-reveal="media">
                 <DbImage
                   media={item.media}
                   alt={label}
