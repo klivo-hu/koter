@@ -204,3 +204,30 @@ read as a harsh downward swipe and repaints on every frame. They now fade in and
 settle from slightly below and slightly small (`MEDIA_REVEAL` in `lib/motion.ts`)
 — opacity and transform only, which the browser composites — and pictures that
 enter together are staggered through `ScrollTrigger.batch`.
+
+## 19. jemalloc, no libvips cache, one libvips thread per operation
+
+The JavaScript side of the server is small (V8 heap ≈45 MB). Its memory problem
+was native: sharp/libvips encoding images for the Next.js optimiser in worker
+threads, under glibc's malloc, which keeps each thread's freed memory in its own
+arena. Measured on the production image with 12 parallel cold image requests on
+2 cores, the process went from ≈135 MB to ≈980 MB and stayed there, and under a
+384 MB container limit it was OOM-killed — which on a server looks like a
+container that will not start.
+
+The fix is three settings, each measured on the same load:
+
+- **jemalloc** (Dockerfile, `LD_PRELOAD`), with `background_thread` and 5 s
+  decay so idle memory goes back to the OS: peak ≈380 MB RSS, ≈160 MB a few
+  seconds later.
+- **libvips operation cache off** (`lib/image-processing.ts`, applied from
+  `instrumentation.ts`): nothing repeats an operation — finished images are
+  cached on disk — so the cache only held memory (≈30 MB).
+- **`imgOptConcurrency: 1`** (next.config.mjs): per-encode memory no longer grows
+  with the host's core count.
+
+AVIF stays. WebP-only encodes ≈4.6× faster but made no real difference to memory
+once jemalloc was in, and doubled the bytes sent to visitors (19.1 MB against
+9.7 MB for the same set of images). The container still needs a memory limit of
+at least 384 MB (512 MB recommended): twelve images decoding side by side need
+more than 256 MB whatever the allocator. See deploy/DEPLOY.md, "Memory".

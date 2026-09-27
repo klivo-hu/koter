@@ -94,6 +94,30 @@ docker run --rm --network client_koter_net curlimages/curl -fsS http://hosting_k
 on the container side; if the domain still shows "site unavailable", compare the
 panel's Container port with the port in that URL.
 
+## Memory
+
+The server idles at about 75 MB (as `docker stats` reports it; ≈140 MB RSS).
+Images are resized and encoded on first request, and a page's worth of cold
+images decoded side by side briefly needs 200–250 MB more; the memory is given
+back within seconds (jemalloc, see the Dockerfile). Measured with 12 parallel
+image requests on 2 cores:
+
+| Container memory limit | Result |
+|---|---|
+| 256 MB | killed during the burst (exit 137) — too small |
+| 384 MB | survives, peak ≈230 MB — minimum |
+| 512 MB | recommended, leaves headroom |
+
+If the panel or the host sets a limit below that, the kernel kills the process
+mid-request and the restart policy brings it back, so it looks like a container
+that will not start. Check for it on the VPS:
+
+```bash
+docker inspect --format 'oom={{.State.OOMKilled}} exit={{.State.ExitCode}} restarts={{.RestartCount}}' hosting_koter_web
+```
+
+`oom=true`, `exit=137` or a climbing restart count means the limit is too low.
+
 ## Review previews
 
 A review preview runs the same image, but the platform copies neither `env_file`

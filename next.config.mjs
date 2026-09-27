@@ -41,6 +41,12 @@ const nextConfig = {
     // with a server error. Must equal SERVER_ACTION_BODY_LIMIT_BYTES in
     // lib/env.ts, which keeps MAX_UPLOAD_BYTES (8 MB by default) under it.
     serverActions: { bodySizeLimit: '10mb' },
+    // One libvips thread per image operation. Next.js otherwise uses half the
+    // host's cores, and every thread holds its own pixel buffers, so memory per
+    // encode grows with the machine. Encodes still run side by side across
+    // requests; this keeps each one small and the peak predictable on any host
+    // (see the jemalloc note in the Dockerfile and lib/image-processing.ts).
+    imgOptConcurrency: 1,
   },
 
   eslint: {

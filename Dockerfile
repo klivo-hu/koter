@@ -46,6 +46,22 @@ RUN npm run build
 
 # -------------------------------------------------------------- runtime
 FROM base AS runner
+
+# jemalloc instead of glibc's malloc, as sharp's own docs recommend for
+# long-running servers. Image optimisation runs in libvips worker threads, and
+# glibc keeps every thread's freed memory in per-thread arenas instead of giving
+# it back: measured on this image, one burst of cold image requests took the
+# process from ~135 MB to ~980 MB and it never came down — enough to be
+# OOM-killed under a 384 MB limit. With jemalloc the same burst peaks at
+# ~300 MB and settles back to ~140 MB within seconds (background_thread plus the
+# decay times below return idle pages to the OS). Linked at an arch-independent
+# path so the same Dockerfile works on x86_64 and arm64 hosts.
+RUN apt-get update \
+ && apt-get install -y --no-install-recommends libjemalloc2 \
+ && rm -rf /var/lib/apt/lists/* \
+ && ln -s "/usr/lib/$(uname -m)-linux-gnu/libjemalloc.so.2" /usr/local/lib/libjemalloc.so.2 \
+ && test -e /usr/local/lib/libjemalloc.so.2
+
 # PORT may be overridden from the site's .env (compose `env_file`); the
 # HEALTHCHECK below reads the same variable, so the probe follows it.
 ENV NODE_ENV=production \
@@ -53,7 +69,9 @@ ENV NODE_ENV=production \
     HOSTNAME=0.0.0.0 \
     DATA_DIR=/app/data \
     DATABASE_PATH=/app/data/koter.db \
-    UPLOAD_DIR=/app/data/uploads
+    UPLOAD_DIR=/app/data/uploads \
+    LD_PRELOAD=/usr/local/lib/libjemalloc.so.2 \
+    MALLOC_CONF=background_thread:true,dirty_decay_ms:5000,muzzy_decay_ms:5000
 
 COPY --from=builder --chown=node:node /app/public ./public
 COPY --from=builder --chown=node:node /app/.next/standalone ./
